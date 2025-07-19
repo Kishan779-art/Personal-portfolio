@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
@@ -5,19 +6,28 @@ import { Button } from '@/components/ui/button';
 import { Cpu, Code, BrainCircuit, Rocket, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
+import { useClickSound } from '@/hooks/useClickSound';
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isExploring, setIsExploring] = useState(false);
   const mouse = useRef({ x: 0, y: 0 });
   const router = useRouter();
+  const playClickSound = useClickSound();
+
 
   const handleExploreClick = () => {
+    playClickSound();
     setIsExploring(true);
     setTimeout(() => {
       router.push('/about');
-      setIsExploring(false);
+      // No need to setIsExploring(false) as we are navigating away.
     }, 1500); 
+  };
+  
+  const handleHireClick = () => {
+    playClickSound();
+    router.push('/contact');
   };
 
   useEffect(() => {
@@ -171,13 +181,14 @@ export default function Hero() {
                   initial={{ opacity: 0, scale: 0.5 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.5 }}
+                  className="flex items-center"
                 >
                   Explore Universe
                 </motion.span>
               )}
             </AnimatePresence>
           </Button>
-          <Button size="lg" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">Hire Me</Button>
+          <Button size="lg" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground" onClick={handleHireClick}>Hire Me</Button>
         </motion.div>
       </div>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">

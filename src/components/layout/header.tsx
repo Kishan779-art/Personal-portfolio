@@ -7,6 +7,7 @@ import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { usePathname } from 'next/navigation';
 import { useClickSound } from '@/hooks/useClickSound';
+import { useRouter } from 'next/navigation';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -20,6 +21,8 @@ export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const playClickSound = useClickSound();
+  const router = useRouter();
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -35,6 +38,7 @@ export default function Header() {
   
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     playClickSound();
+    router.push('/contact');
   };
 
   return (
