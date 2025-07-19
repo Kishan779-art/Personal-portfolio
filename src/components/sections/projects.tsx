@@ -1,10 +1,11 @@
 'use client'
 
-import { Card } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { motion } from 'framer-motion';
 
 const projects = [
   {
@@ -53,7 +54,7 @@ export default function Projects() {
     return (
         <section id="projects" className="space-y-16">
             <div className="text-center">
-                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Explore My Arsenal</h2>
+                <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary animate-pulse">My Arsenal</h2>
                 <p className="mt-4 text-lg text-muted-foreground">A selection of my proudest creations.</p>
             </div>
 
@@ -91,38 +92,42 @@ const ProjectGrid = ({ projects }: { projects: typeof projects }) => (
 )
 
 const ProjectCard = ({ title, description, image, tags, liveUrl, githubUrl, aiHint }: (typeof projects)[0]) => {
-    return (
-        <div className="group" style={{ perspective: '1000px' }}>
-            <div className="relative w-full h-96 text-left transition-transform duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)]">
-                {/* Front of card */}
-                <div className="absolute w-full h-full [backface-visibility:hidden]">
-                    <Card className="w-full h-full bg-card/50 border-primary/20 overflow-hidden flex flex-col">
-                        <Image src={image} alt={title} width={600} height={400} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={aiHint}/>
-                        <div className="p-6 flex flex-col flex-grow">
-                           <h3 className="font-headline text-xl text-accent mb-2">{title}</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {tags.map(tag => <span key={tag} className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full">{tag}</span>)}
-                            </div>
-                        </div>
-                    </Card>
-                </div>
+    const cardVariants = {
+        initial: { opacity: 0, y: 50, scale: 0.95 },
+        animate: { opacity: 1, y: 0, scale: 1 },
+    };
 
-                {/* Back of card */}
-                <div className="absolute w-full h-full [backface-visibility:hidden] [transform:rotateY(180deg)]">
-                    <Card className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 border-primary/20 flex flex-col justify-center p-6">
-                        <h3 className="font-headline text-2xl text-accent mb-4">{title}</h3>
-                        <p className="text-muted-foreground mb-6 flex-grow">{description}</p>
-                        <div className="flex justify-center gap-4">
-                            <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">
-                                <a href={liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Live</a>
-                            </Button>
-                             <Button asChild variant="ghost" className="text-foreground hover:text-primary">
-                                <a href={githubUrl} target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" /> Code</a>
-                            </Button>
-                        </div>
-                    </Card>
+    return (
+        <motion.div
+            variants={cardVariants}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+            className="group"
+            style={{ perspective: '1000px' }}
+        >
+            <Card className="w-full h-full bg-card/50 border-primary/10 backdrop-blur-sm overflow-hidden flex flex-col transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/20">
+                <div className="relative overflow-hidden">
+                  <Image src={image} alt={title} width={600} height={400} className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300" data-ai-hint={aiHint}/>
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
                 </div>
-            </div>
-        </div>
+                <div className="p-6 flex flex-col flex-grow">
+                   <h3 className="font-headline text-xl text-accent mb-2">{title}</h3>
+                   <p className="text-muted-foreground mb-4 text-sm flex-grow">{description}</p>
+                    <div className="flex flex-wrap gap-2 mb-6">
+                        {tags.map(tag => <span key={tag} className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full">{tag}</span>)}
+                    </div>
+                     <div className="flex justify-start gap-4 mt-auto">
+                        <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow">
+                            <a href={liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Live</a>
+                        </Button>
+                         <Button asChild variant="ghost" className="text-foreground hover:text-primary">
+                            <a href={githubUrl} target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" /> Code</a>
+                        </Button>
+                    </div>
+                </div>
+            </Card>
+        </motion.div>
     );
 };
