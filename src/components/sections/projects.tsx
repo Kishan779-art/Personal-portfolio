@@ -9,44 +9,14 @@ import { motion } from 'framer-motion';
 
 const projects = [
   {
-    title: 'AI-Powered Chatbot',
+    title: 'AI Resume Ranker & Builder',
     category: 'AI',
-    description: 'A conversational AI with natural language understanding for customer support.',
+    description: 'Optimize your resume for any job description with our AI-powered tool. Get insights, suggestions, and a professional resume to land your dream job.',
     image: 'https://placehold.co/600x400.png',
-    tags: ['Python', 'TensorFlow', 'NLP'],
-    liveUrl: '#',
+    tags: ['Next.js', 'AI/ML', 'Tailwind CSS', 'Genkit'],
+    liveUrl: 'https://ai-resume-ranker-builder.vercel.app/',
     githubUrl: 'https://github.com/Kishan779-art',
-    aiHint: 'chatbot interface'
-  },
-  {
-    title: 'Futuristic Portfolio',
-    category: 'Web',
-    description: 'This very website, built with Next.js, Tailwind CSS and a touch of neon.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['Next.js', 'React', 'Tailwind'],
-    liveUrl: '#',
-    githubUrl: 'https://github.com/Kishan779-art',
-    aiHint: 'portfolio website'
-  },
-  {
-    title: 'CI/CD Pipeline Automation',
-    category: 'Automation',
-    description: 'Automated build, test, and deployment pipelines for a large-scale application.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['GitHub Actions', 'Docker', 'GCP'],
-    liveUrl: '#',
-    githubUrl: 'https://github.com/Kishan779-art',
-    aiHint: 'code pipeline'
-  },
-    {
-    title: 'Image Recognition API',
-    category: 'AI',
-    description: 'A deep learning model that identifies objects in images with high accuracy.',
-    image: 'https://placehold.co/600x400.png',
-    tags: ['PyTorch', 'REST API', 'Computer Vision'],
-    liveUrl: '#',
-    githubUrl: 'https://github.com/Kishan779-art',
-    aiHint: 'image recognition'
+    aiHint: 'resume analysis'
   },
 ];
 
