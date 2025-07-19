@@ -81,11 +81,11 @@ export default function Hero() {
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />
       <div className="relative z-10 text-center container mx-auto px-4">
         <div className="mb-8 animate-slide-in-fade" style={{animationDelay: '0.2s'}}>
-          <Image src="https://placehold.co/150x150.png" alt="Avatar" width={150} height={150} className="rounded-full mx-auto border-4 border-primary neon-glow" data-ai-hint="futuristic avatar" />
+          <Image src="https://placehold.co/150x150.png" alt="Kishan Patel" width={150} height={150} className="rounded-full mx-auto border-4 border-primary neon-glow" data-ai-hint="futuristic avatar" />
         </div>
-        <Typewriter text="Welcome to BOLT Universe" />
+        <Typewriter text="Kishan Patel" />
         <p className="mt-4 mb-8 text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto animate-slide-in-fade" style={{animationDelay: '0.8s'}}>
-          A next-gen AI/ML Engineer crafting the future, one line of code at a time.
+          Welcome to my Universe. I'm a next-gen AI/ML Engineer crafting the future, one line of code at a time.
         </p>
         <div className="flex justify-center gap-4 animate-slide-in-fade" style={{animationDelay: '1s'}}>
           <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 animate-glow-pulse">Explore Universe</Button>

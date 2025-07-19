@@ -4,7 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 
 export const metadata: Metadata = {
-  title: 'BOLT Universe',
+  title: 'Kishan Patel | BOLT Universe',
   description: 'The futuristic portfolio of a next-gen AI/ML engineer.',
 };
 

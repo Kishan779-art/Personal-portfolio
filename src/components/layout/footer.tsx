@@ -29,7 +29,7 @@ export default function Footer() {
           ))}
         </div>
         <p className="text-muted-foreground">
-          &copy; {new Date().getFullYear()} BOLT Universe. All rights reserved.
+          &copy; {new Date().getFullYear()} Kishan Patel. All rights reserved.
         </p>
       </div>
     </footer>
