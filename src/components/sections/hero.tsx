@@ -4,16 +4,18 @@ import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Cpu, Code, BrainCircuit, Rocket, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRouter } from 'next/navigation';
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isExploring, setIsExploring] = useState(false);
   const mouse = useRef({ x: 0, y: 0 });
+  const router = useRouter();
 
   const handleExploreClick = () => {
     setIsExploring(true);
     setTimeout(() => {
-      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+      router.push('/about');
       setIsExploring(false);
     }, 1500); 
   };

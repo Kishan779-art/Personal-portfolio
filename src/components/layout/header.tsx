@@ -5,17 +5,19 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/theme-toggle';
+import { usePathname } from 'next/navigation';
 
 const navItems = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
-  { name: 'Projects', href: '/#projects' },
+  { name: 'Projects', href: '/projects' },
   { name: 'Templates', href: '/templates' },
-  { name: 'Contact', href: '/#contact' },
+  { name: 'Contact', href: '/contact' },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -24,20 +26,6 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.startsWith('/#')) {
-      e.preventDefault();
-      const targetId = href.substring(2);
-      const targetElement = document.getElementById(targetId);
-      if (targetElement) {
-        window.scrollTo({
-          top: targetElement.offsetTop - 100, // Adjust for header height
-          behavior: 'smooth'
-        });
-      }
-    }
-  };
 
   return (
     <motion.header
@@ -59,11 +47,16 @@ export default function Header() {
               <motion.div key={item.name} whileHover={{ scale: 1.1, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <Link
                   href={item.href}
-                  onClick={(e) => handleNavClick(e, item.href)}
-                  className="text-lg font-medium text-foreground/80 hover:text-primary relative group"
+                  className={cn(
+                    "text-lg font-medium text-foreground/80 hover:text-primary relative group",
+                    pathname === item.href && "text-primary"
+                  )}
                 >
                   {item.name}
-                  <span className="absolute bottom-[-4px] left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full neon-glow"></span>
+                  <span className={cn(
+                    "absolute bottom-[-4px] left-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full",
+                    pathname === item.href ? "w-full" : "w-0"
+                  )}></span>
                 </Link>
               </motion.div>
             ))}
