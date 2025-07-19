@@ -49,7 +49,7 @@ export default function AboutPage() {
                 <div className="grid md:grid-cols-5 gap-12 items-center">
                     <div className="md:col-span-2 flex justify-center items-center">
                         <div className="relative">
-                            <Image src="https://placehold.co/300x400.png" alt="Kishan Patel's Hologram Avatar" width={300} height={400} className="rounded-lg z-10" data-ai-hint="futuristic hologram" />
+                            <Image src="https://firebasestudio.app/assets/images/yRDaP4TkgX6b0g1.jpeg" alt="Kishan Patel" width={300} height={400} className="rounded-lg z-10 object-cover" />
                             <div className="absolute -inset-2 bg-gradient-to-br from-primary to-accent rounded-lg blur-xl opacity-30 animate-pulse"></div>
                         </div>
                     </div>
