@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { usePathname } from 'next/navigation';
+import { useClickSound } from '@/hooks/useClickSound';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -18,6 +19,7 @@ const navItems = [
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
+  const playClickSound = useClickSound();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -26,6 +28,14 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    playClickSound();
+  };
+  
+  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    playClickSound();
+  };
 
   return (
     <motion.header
@@ -39,7 +49,7 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text">
+          <Link href="/" className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text" onClick={handleLinkClick}>
             BOLT
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
@@ -47,6 +57,7 @@ export default function Header() {
               <motion.div key={item.name} whileHover={{ scale: 1.1, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <Link
                   href={item.href}
+                  onClick={handleLinkClick}
                   className={cn(
                     "text-lg font-medium text-foreground/80 hover:text-primary relative group",
                     pathname === item.href && "text-primary"
@@ -62,7 +73,7 @@ export default function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-4">
-            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow">
+            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow" onClick={handleButtonClick}>
               Hire Me
             </Button>
             <ThemeToggle />
