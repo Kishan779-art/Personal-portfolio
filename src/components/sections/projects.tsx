@@ -15,7 +15,7 @@ const projects = [
     image: 'https://placehold.co/600x400.png',
     tags: ['Python', 'TensorFlow', 'NLP'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/Kishan779-art',
     aiHint: 'chatbot interface'
   },
   {
@@ -25,7 +25,7 @@ const projects = [
     image: 'https://placehold.co/600x400.png',
     tags: ['Next.js', 'React', 'Tailwind'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/Kishan779-art',
     aiHint: 'portfolio website'
   },
   {
@@ -35,7 +35,7 @@ const projects = [
     image: 'https://placehold.co/600x400.png',
     tags: ['GitHub Actions', 'Docker', 'GCP'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/Kishan779-art',
     aiHint: 'code pipeline'
   },
     {
@@ -45,7 +45,7 @@ const projects = [
     image: 'https://placehold.co/600x400.png',
     tags: ['PyTorch', 'REST API', 'Computer Vision'],
     liveUrl: '#',
-    githubUrl: '#',
+    githubUrl: 'https://github.com/Kishan779-art',
     aiHint: 'image recognition'
   },
 ];

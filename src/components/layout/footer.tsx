@@ -1,16 +1,16 @@
-import { Github, Linkedin, Twitter } from 'lucide-react';
+import { Github, Linkedin, Instagram } from 'lucide-react';
 import Link from 'next/link';
 
 const socialLinks = [
-  { name: 'GitHub', icon: Github, href: '#' },
+  { name: 'GitHub', icon: Github, href: 'https://github.com/Kishan779-art' },
   { name: 'LinkedIn', icon: Linkedin, href: '#' },
-  { name: 'Twitter', icon: Twitter, href: '#' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/kishan_patel_7799_/' },
 ];
 
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12">
-      <div className="absolute top-0 left-0 w-full h-[2px] animate-border-glow"></div>
+      <div className="absolute top-0 left-0 w-full h-[2px] animate-border-glow bg-[linear-gradient(to_right,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--secondary)),hsl(var(--primary)))] bg-[length:200%_auto]"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <p className="font-headline text-2xl text-primary mb-4">
           Thanks for visiting the Universe!

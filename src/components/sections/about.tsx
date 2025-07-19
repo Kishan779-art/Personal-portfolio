@@ -11,10 +11,9 @@ const skills = [
 ];
 
 const timeline = [
-    { year: '2020', title: 'B.Sc. in Computer Science', institution: 'Tech University' },
-    { year: '2022', title: 'AI Research Intern', institution: 'Future Systems Inc.' },
+    { year: 'Present', title: 'B.Tech in AI & Machine Learning', institution: 'University Name (To be updated)' },
     { year: '2023', title: 'Lead ML Engineer', institution: 'InnovateAI Corp.' },
-    { year: 'Present', title: 'Freelance AI Consultant', institution: 'BOLT Universe' },
+    { year: '2022', title: 'AI Research Intern', institution: 'Future Systems Inc.' },
 ];
 
 export default function About() {
@@ -42,7 +41,7 @@ export default function About() {
                 Hi, I’m Kishan Patel – an AI/ML Engineer and the creator of the BOLT Universe.
               </p>
               <p>
-                From a young age, I was fascinated by the potential of technology to solve complex problems. This passion led me to pursue a degree in computer science, where I discovered the transformative power of Artificial Intelligence.
+                From a young age, I was fascinated by the potential of technology to solve complex problems. This passion led me to pursue a degree in Artificial Intelligence and Machine Learning, where I'm constantly exploring the transformative power of intelligent systems.
               </p>
               <p>
                 My professional journey has been a thrilling adventure through the landscapes of machine learning, web development, and automation. I thrive on building intelligent systems that are not only powerful but also intuitive and beautiful.
