@@ -32,7 +32,7 @@ const stats = [
 
 export default function AboutPage() {
   const titles = ["ML Enthusiast", "Resume Ranker Dev", "Hackathon Winner"];
-  const typewriterText = useTypewriter(titles, 100, 2000);
+  const typewriterText = useTypewriter(titles, 100, 50, 2000);
   const statsRef = useRef(null);
   const isInView = useInView(statsRef, { once: true, margin: "-100px" });
 
