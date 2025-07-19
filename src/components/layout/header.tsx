@@ -8,10 +8,10 @@ import { ThemeToggle } from '@/components/theme-toggle';
 
 const navItems = [
   { name: 'Home', href: '/' },
-  { name: 'About', href: '#about' },
-  { name: 'Projects', href: '#projects' },
+  { name: 'About', href: '/about' },
+  { name: 'Projects', href: '/#projects' },
   { name: 'Templates', href: '/templates' },
-  { name: 'Contact', href: '#contact' },
+  { name: 'Contact', href: '/#contact' },
 ];
 
 export default function Header() {
@@ -24,6 +24,20 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('/#')) {
+      e.preventDefault();
+      const targetId = href.substring(2);
+      const targetElement = document.getElementById(targetId);
+      if (targetElement) {
+        window.scrollTo({
+          top: targetElement.offsetTop - 100, // Adjust for header height
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
 
   return (
     <motion.header
@@ -45,6 +59,7 @@ export default function Header() {
               <motion.div key={item.name} whileHover={{ scale: 1.1, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <Link
                   href={item.href}
+                  onClick={(e) => handleNavClick(e, item.href)}
                   className="text-lg font-medium text-foreground/80 hover:text-primary relative group"
                 >
                   {item.name}
