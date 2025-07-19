@@ -4,7 +4,7 @@ import ChatAssistant from '@/components/chat-assistant';
 
 export default function TemplatesPage() {
   return (
-    <div className="flex flex-col min-h-screen bg-[#121212] text-foreground">
+    <div className="flex flex-col min-h-screen bg-background text-foreground">
       <Header />
       <main className="flex-grow pt-20">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-16 text-center">

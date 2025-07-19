@@ -4,25 +4,25 @@
 
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 181 100% 62%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 290 62% 52%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 330 100% 71%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 181 100% 32%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 290 62% 82%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 330 100% 81%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 181 100% 62%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 181 100% 32%;
     --radius: 0.5rem;
   }
 
@@ -55,6 +55,8 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  .dark body {
     background-color: #121212;
   }
 }
@@ -96,4 +98,21 @@
 }
 .animate-slide-in-fade {
   animation: slide-in-fade 1s ease-out forwards;
+}
+
+/* Light theme specific styles */
+.light .bg-card\/50 {
+    background-color: rgba(255, 255, 255, 0.5);
+}
+.light .backdrop-blur-lg {
+    backdrop-filter: blur(16px);
+}
+.light .border-primary\/20 {
+    border-color: hsl(var(--primary) / 0.2);
+}
+.light .bg-black\/50 {
+    background-color: rgba(240, 240, 240, 0.5);
+}
+.light .text-foreground\/80 {
+    color: hsl(var(--foreground) / 0.8);
 }

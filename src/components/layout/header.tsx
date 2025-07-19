@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import { motion } from 'framer-motion';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const navItems = [
   { name: 'Home', href: '/' },
@@ -31,7 +32,7 @@ export default function Header() {
       transition={{ duration: 0.5 }}
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
-        scrolled ? 'bg-black/50 backdrop-blur-lg border-b border-primary/20 shadow-lg shadow-primary/10' : 'bg-transparent'
+        scrolled ? 'bg-background/80 backdrop-blur-lg border-b border-primary/20 shadow-lg shadow-primary/10' : 'bg-transparent'
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -52,9 +53,12 @@ export default function Header() {
               </motion.div>
             ))}
           </nav>
-          <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow">
-            Hire Me
-          </Button>
+          <div className="flex items-center gap-4">
+            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow">
+              Hire Me
+            </Button>
+            <ThemeToggle />
+          </div>
         </div>
       </div>
     </motion.header>
