@@ -3,7 +3,6 @@ import Footer from '@/components/layout/footer';
 import Hero from '@/components/sections/hero';
 import About from '@/components/sections/about';
 import Projects from '@/components/sections/projects';
-import ResumeAnalyzer from '@/components/sections/resume-analyzer';
 import Contact from '@/components/sections/contact';
 import ChatAssistant from '@/components/chat-assistant';
 
@@ -16,7 +15,6 @@ export default function Home() {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-24 sm:space-y-32 md:space-y-48">
           <About />
           <Projects />
-          <ResumeAnalyzer />
           <Contact />
         </div>
       </main>
