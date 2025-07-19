@@ -1,6 +1,5 @@
 import Header from '@/components/layout/header';
 import Footer from '@/components/layout/footer';
-import ChatAssistant from '@/components/chat-assistant';
 
 export default function TemplatesPage() {
   return (
@@ -13,7 +12,6 @@ export default function TemplatesPage() {
         </div>
       </main>
       <Footer />
-      <ChatAssistant />
     </div>
   );
 }
