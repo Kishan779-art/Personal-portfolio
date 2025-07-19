@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { cn } from '@/lib/utils';
 import { ThemeProvider } from '@/components/theme-provider';
+import EntryAnimation from '@/components/entry-animation';
 
 export const metadata: Metadata = {
   title: 'Kishan Patel | BOLT Universe',
@@ -28,6 +29,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <EntryAnimation />
           {children}
           <Toaster />
         </ThemeProvider>
