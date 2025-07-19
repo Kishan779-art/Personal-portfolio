@@ -30,10 +30,11 @@ export default function Contact() {
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
     console.log(data);
+    // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
     toast({
       title: 'Message Sent! 🚀',
-      description: "Thanks for reaching out. I'll get back to you soon.",
+      description: "Thanks for reaching out, Kishan. I'll get back to you soon.",
     });
     form.reset();
     setIsSubmitting(false);
@@ -41,6 +42,7 @@ export default function Contact() {
 
   return (
     <section id="contact" className="relative space-y-16 overflow-hidden py-24">
+       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] h-full bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)/0.1)_0%,_transparent_50%)] -z-10"></div>
       <div className="text-center">
         <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">Neural Link</h2>
         <p className="mt-4 text-lg text-muted-foreground">Send a signal into the universe. I'll be listening.</p>

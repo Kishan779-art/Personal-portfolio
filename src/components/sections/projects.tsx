@@ -83,27 +83,46 @@ export default function Projects() {
     );
 }
 
-const ProjectGrid = ({ projects }: { projects: typeof projects }) => (
-    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+const ProjectGrid = ({ projects }: { projects: typeof projects }) => {
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: {
+                staggerChildren: 0.1
+            }
+        }
+    };
+    return (
+    <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
         {projects.map((project, index) => (
             <ProjectCard key={index} {...project} />
         ))}
-    </div>
-)
+    </motion.div>
+    )
+}
 
 const ProjectCard = ({ title, description, image, tags, liveUrl, githubUrl, aiHint }: (typeof projects)[0]) => {
     const cardVariants = {
-        initial: { opacity: 0, y: 50, scale: 0.95 },
-        animate: { opacity: 1, y: 0, scale: 1 },
+        hidden: { opacity: 0, y: 50, scale: 0.95 },
+        visible: { 
+            opacity: 1, y: 0, scale: 1,
+            transition: {
+                type: 'spring',
+                stiffness: 400,
+                damping: 17
+            }
+        },
     };
 
     return (
         <motion.div
             variants={cardVariants}
-            initial="initial"
-            whileInView="animate"
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
             className="group"
             style={{ perspective: '1000px' }}
         >
