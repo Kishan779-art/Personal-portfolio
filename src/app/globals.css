@@ -116,3 +116,26 @@
 .light .text-foreground\/80 {
     color: hsl(var(--foreground) / 0.8);
 }
+
+@keyframes border-glow {
+  0% {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
+  }
+  25% {
+    background: linear-gradient(to right, hsl(var(--secondary)), hsl(var(--primary)), hsl(var(--accent)));
+  }
+  50% {
+    background: linear-gradient(to right, hsl(var(--accent)), hsl(var(--secondary)), hsl(var(--primary)));
+  }
+  75% {
+    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
+  }
+  100% {
+    background: linear-gradient(to right, hsl(var(--secondary)), hsl(var(--primary)), hsl(var(--accent)));
+  }
+}
+
+.animate-border-glow {
+  background-size: 200% 200%;
+  animation: border-glow 10s ease-in-out infinite;
+}

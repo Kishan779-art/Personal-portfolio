@@ -109,6 +109,11 @@ export default {
         'glow-pulse': {
           '0%, 100%': { boxShadow: '0 0 10px hsl(var(--primary))' },
           '50%': { boxShadow: '0 0 20px hsl(var(--primary)), 0 0 30px hsl(var(--primary))' }
+        },
+        'border-glow': {
+          '0%': { backgroundPosition: '0% 50%' },
+          '50%': { backgroundPosition: '100% 50%' },
+          '100%': { backgroundPosition: '0% 50%' },
         }
       },
       animation: {
@@ -117,6 +122,7 @@ export default {
         'slide-in-fade': 'slide-in-fade 1s ease-out forwards',
         'typing': 'typing 3.5s steps(40, end), blink-caret .75s step-end infinite',
         'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+        'border-glow': 'border-glow 8s ease-in-out infinite',
       },
     },
   },
