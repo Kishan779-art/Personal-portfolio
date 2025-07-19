@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isExploring, setIsExploring] = useState(false);
+  const mouse = useRef({ x: 0, y: 0 });
 
   const handleExploreClick = () => {
     setIsExploring(true);
@@ -27,13 +28,17 @@ export default function Hero() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const particles: {x: number, y: number, size: number, speedX: number, speedY: number}[] = [];
-    const particleCount = 50;
+    const particles: {x: number, y: number, size: number, speedX: number, speedY: number, base_x: number, base_y: number}[] = [];
+    const particleCount = 100;
 
     for (let i = 0; i < particleCount; i++) {
+        const x = Math.random() * canvas.width;
+        const y = Math.random() * canvas.height;
         particles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
+            x: x,
+            y: y,
+            base_x: x,
+            base_y: y,
             size: Math.random() * 2 + 1,
             speedX: Math.random() * 0.5 - 0.25,
             speedY: Math.random() * 0.5 - 0.25,
@@ -45,12 +50,30 @@ export default function Hero() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         for (let i = 0; i < particles.length; i++) {
             const p = particles[i];
-            p.x += p.speedX;
-            p.y += p.speedY;
-
-            if (p.x > canvas.width || p.x < 0) p.speedX *= -1;
-            if (p.y > canvas.height || p.y < 0) p.speedY *= -1;
             
+            let dx = mouse.current.x - p.x;
+            let dy = mouse.current.y - p.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+            let forceDirectionX = dx / distance;
+            let forceDirectionY = dy / distance;
+            let maxDistance = 100;
+            let force = (maxDistance - distance) / maxDistance;
+            
+            if(distance < maxDistance) {
+                p.x -= forceDirectionX * force * 1.5;
+                p.y -= forceDirectionY * force * 1.5;
+            } else {
+                 if (p.x !== p.base_x) {
+                    let dx = p.x - p.base_x;
+                    p.x -= dx/10;
+                }
+                if (p.y !== p.base_y) {
+                    let dy = p.y - p.base_y;
+                    p.y -= dy/10;
+                }
+            }
+
+
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
             ctx.fillStyle = 'hsl(181 100% 62% / 0.5)';
@@ -61,17 +84,38 @@ export default function Hero() {
     
     animate();
 
+    const handleMouseMove = (event: MouseEvent) => {
+        mouse.current.x = event.clientX;
+        mouse.current.y = event.clientY;
+    };
+
     const handleResize = () => {
         if(canvas) {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            particles.length = 0; // Clear existing particles
+            for (let i = 0; i < particleCount; i++) {
+                const x = Math.random() * canvas.width;
+                const y = Math.random() * canvas.height;
+                particles.push({
+                    x: x,
+                    y: y,
+                    base_x: x,
+                    base_y: y,
+                    size: Math.random() * 2 + 1,
+                    speedX: Math.random() * 0.5 - 0.25,
+                    speedY: Math.random() * 0.5 - 0.25,
+                });
+            }
         }
     }
     window.addEventListener('resize', handleResize);
+    window.addEventListener('mousemove', handleMouseMove);
 
     return () => {
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
 
