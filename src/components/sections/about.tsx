@@ -28,7 +28,7 @@ export default function About() {
       <div className="grid md:grid-cols-5 gap-12 items-center">
         <div className="md:col-span-2 flex justify-center items-center">
             <div className="relative">
-                <Image src="https://placehold.co/300x400.png" alt="Hologram Avatar" width={300} height={400} className="rounded-lg z-10" data-ai-hint="futuristic hologram" />
+                <Image src="https://placehold.co/300x400.png" alt="Kishan Patel's Hologram Avatar" width={300} height={400} className="rounded-lg z-10" data-ai-hint="futuristic hologram" />
                 <div className="absolute -inset-2 bg-gradient-to-br from-primary to-accent rounded-lg blur-xl opacity-30 animate-pulse"></div>
             </div>
         </div>
@@ -38,6 +38,9 @@ export default function About() {
               <CardTitle className="text-accent font-headline">My Journey</CardTitle>
             </CardHeader>
             <CardContent className="text-muted-foreground space-y-4">
+              <p>
+                Hi, I’m Kishan Patel – an AI/ML Engineer and the creator of the BOLT Universe.
+              </p>
               <p>
                 From a young age, I was fascinated by the potential of technology to solve complex problems. This passion led me to pursue a degree in computer science, where I discovered the transformative power of Artificial Intelligence.
               </p>
