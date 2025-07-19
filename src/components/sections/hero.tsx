@@ -1,11 +1,21 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Cpu, Code, BrainCircuit, Rocket } from 'lucide-react';
+import { Cpu, Code, BrainCircuit, Rocket, Loader } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [isExploring, setIsExploring] = useState(false);
+
+  const handleExploreClick = () => {
+    setIsExploring(true);
+    setTimeout(() => {
+      document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' });
+      setIsExploring(false);
+    }, 1500); 
+  };
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -69,16 +79,60 @@ export default function Hero() {
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       <canvas ref={canvasRef} className="absolute top-0 left-0 w-full h-full z-0" />
       <div className="relative z-10 text-center container mx-auto px-4">
-        <h1 className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent animate-slide-in-fade">
+        <motion.h1 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary to-accent"
+        >
             Welcome to the BOLT Universe
-        </h1>
-        <p className="mt-4 mb-8 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto animate-slide-in-fade" style={{animationDelay: '0.5s'}}>
+        </motion.h1>
+        <motion.p 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="mt-4 mb-8 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
+        >
           An AI-Powered Portfolio for the Future.
-        </p>
-        <div className="flex justify-center gap-4 animate-slide-in-fade" style={{animationDelay: '1s'}}>
-          <Button size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 animate-glow-pulse">Explore Universe</Button>
+        </motion.p>
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 1 }}
+          className="flex justify-center gap-4"
+        >
+          <Button 
+            size="lg" 
+            className="bg-primary text-primary-foreground hover:bg-primary/90 animate-glow-pulse w-48" 
+            onClick={handleExploreClick}
+            disabled={isExploring}
+          >
+            <AnimatePresence mode="wait">
+              {isExploring ? (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                  className="flex items-center justify-center"
+                >
+                  <Loader className="mr-2 h-5 w-5 animate-spin" />
+                  Entering...
+                </motion.div>
+              ) : (
+                <motion.span
+                  key="explore"
+                  initial={{ opacity: 0, scale: 0.5 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.5 }}
+                >
+                  Explore Universe
+                </motion.span>
+              )}
+            </AnimatePresence>
+          </Button>
           <Button size="lg" variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground">Hire Me</Button>
-        </div>
+        </motion.div>
       </div>
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
         <Cpu className="absolute text-primary/50 w-12 h-12" style={{ top: '20%', left: '15%', animation: 'float 6s ease-in-out infinite' }}/>
