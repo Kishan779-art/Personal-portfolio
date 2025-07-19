@@ -119,23 +119,18 @@
 
 @keyframes border-glow {
   0% {
-    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
-  }
-  25% {
-    background: linear-gradient(to right, hsl(var(--secondary)), hsl(var(--primary)), hsl(var(--accent)));
+    background-position: 0% 50%;
   }
   50% {
-    background: linear-gradient(to right, hsl(var(--accent)), hsl(var(--secondary)), hsl(var(--primary)));
-  }
-  75% {
-    background: linear-gradient(to right, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)));
+    background-position: 100% 50%;
   }
   100% {
-    background: linear-gradient(to right, hsl(var(--secondary)), hsl(var(--primary)), hsl(var(--accent)));
+    background-position: 0% 50%;
   }
 }
 
 .animate-border-glow {
-  background-size: 200% 200%;
-  animation: border-glow 10s ease-in-out infinite;
+    background: linear-gradient(-45deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--secondary)), hsl(var(--primary)));
+    background-size: 400% 400%;
+    animation: border-glow 8s ease-in-out infinite;
 }

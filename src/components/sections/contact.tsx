@@ -48,7 +48,7 @@ export default function Contact() {
     await new Promise(resolve => setTimeout(resolve, 1000));
     toast({
       title: 'Message Sent! 🚀',
-      description: "Thanks for reaching out, Kishan. I'll get back to you soon.",
+      description: "Thanks for reaching out. I'll get back to you soon.",
     });
     form.reset();
     setIsSubmitting(false);
@@ -104,10 +104,10 @@ export default function Contact() {
               )}
             />
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 animate-glow-pulse">
+              <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 neon-glow">
                   {isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-4 w-4" /></>}
               </Button>
-              <Button asChild className="w-full bg-green-500 text-white hover:bg-green-600">
+              <Button asChild className="w-full bg-green-500 text-white hover:bg-green-600 animate-glow-pulse">
                 <Link href="https://wa.me/918200945102" target="_blank">
                   <WhatsAppIcon className="mr-2 h-5 w-5" />
                   Contact on WhatsApp
