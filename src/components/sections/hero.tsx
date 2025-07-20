@@ -150,7 +150,7 @@ export default function Hero() {
           transition={{ duration: 1, delay: 0.5 }}
           className="mt-4 mb-8 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto"
         >
-          An AI-Powered Portfolio for the Future.
+          An AI-Powered Portfolio by Kishan Patel
         </motion.p>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}

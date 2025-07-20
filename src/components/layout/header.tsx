@@ -60,7 +60,7 @@ export default function Header() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link href="/" onClick={(e) => handleLinkClick(e, '/', 0)} className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text">
-            BOLT
+            Kishan Patel
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
