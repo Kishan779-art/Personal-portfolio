@@ -7,22 +7,21 @@ import { motion } from 'framer-motion';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { usePathname } from 'next/navigation';
 import { useClickSound } from '@/hooks/useClickSound';
-import { useRouter } from 'next/navigation';
+import { usePageTransition } from '@/hooks/use-page-transition';
 
 const navItems = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Projects', href: '/projects' },
-  { name: 'Templates', href: '/templates' },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Home', href: '/', step: 0 },
+  { name: 'About', href: '/about', step: 2 },
+  { name: 'Projects', href: '/projects', step: 3 },
+  { name: 'Templates', href: '/templates', step: 4 },
+  { name: 'Contact', href: '/contact', step: 5 },
 ];
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const pathname = usePathname();
   const playClickSound = useClickSound();
-  const router = useRouter();
-
+  const { startTransition } = usePageTransition();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,13 +31,20 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+  const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, step: number) => {
+    e.preventDefault();
     playClickSound();
+    if (pathname !== href) {
+        startTransition(href, step);
+    }
   };
   
   const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
     playClickSound();
-    router.push('/contact');
+    if (pathname !== '/contact') {
+        startTransition('/contact', 5);
+    }
   };
 
   return (
@@ -53,7 +59,7 @@ export default function Header() {
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text" onClick={handleLinkClick}>
+          <Link href="/" onClick={(e) => handleLinkClick(e, '/', 0)} className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text">
             BOLT
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
@@ -61,7 +67,7 @@ export default function Header() {
               <motion.div key={item.name} whileHover={{ scale: 1.1, y: -2 }} transition={{ type: 'spring', stiffness: 300 }}>
                 <Link
                   href={item.href}
-                  onClick={handleLinkClick}
+                  onClick={(e) => handleLinkClick(e, item.href, item.step)}
                   className={cn(
                     "text-lg font-medium text-foreground/80 hover:text-primary relative group",
                     pathname === item.href && "text-primary"

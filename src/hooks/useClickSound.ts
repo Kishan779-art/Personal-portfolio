@@ -3,7 +3,7 @@
 
 import { useCallback } from 'react';
 
-type SoundType = 'click' | 'whoosh';
+type SoundType = 'click' | 'whoosh' | 'transition';
 type UseClickSoundProps = {
   type?: SoundType;
 };
@@ -33,7 +33,7 @@ export function useClickSound({ type = 'click' }: UseClickSoundProps = {}) {
         gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
         oscillator.start(audioContext.currentTime);
         oscillator.stop(audioContext.currentTime + 0.1);
-      } else if (type === 'whoosh') {
+      } else if (type === 'whoosh' || type === 'transition') {
         const bufferSize = audioContext.sampleRate * 0.5; // 0.5 second
         const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
         const output = buffer.getChannelData(0);

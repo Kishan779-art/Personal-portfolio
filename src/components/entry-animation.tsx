@@ -1,8 +1,10 @@
+
 'use client';
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { usePageTransition } from '@/hooks/use-page-transition';
 
 const MatrixCode = ({ onFinished }: { onFinished: () => void }) => {
     const [lines, setLines] = useState<string[]>([]);
@@ -20,7 +22,7 @@ const MatrixCode = ({ onFinished }: { onFinished: () => void }) => {
       const timeout = setTimeout(() => {
         clearInterval(interval);
         onFinished();
-      }, 2000);
+      }, 1000); // Reduced duration for faster transitions
   
       return () => {
         clearInterval(interval);
@@ -42,8 +44,7 @@ const MatrixCode = ({ onFinished }: { onFinished: () => void }) => {
     );
   };
 
-const WelcomeMessage = ({ onFinished }: { onFinished: () => void }) => {
-  const text = "Welcome to the world of Kishan Patel.";
+const WelcomeMessage = ({ onFinished, text }: { onFinished: () => void, text: string }) => {
   const words = text.split(" ");
 
   const container = {
@@ -76,7 +77,7 @@ const WelcomeMessage = ({ onFinished }: { onFinished: () => void }) => {
   };
 
   useEffect(() => {
-    const timeout = setTimeout(onFinished, words.length * 150 + 1000);
+    const timeout = setTimeout(onFinished, words.length * 100 + 500); // Reduced duration
     return () => clearTimeout(timeout);
   }, [onFinished, words.length]);
 
@@ -102,38 +103,48 @@ const WelcomeMessage = ({ onFinished }: { onFinished: () => void }) => {
 
 
 export default function EntryAnimation() {
-  const [step, setStep] = useState(0); // 0: matrix, 1: welcome, 2: flash, 3: done
-  const [isVisible, setIsVisible] = useState(true);
+  const { isTransitioning, transitionStep, endTransition } = usePageTransition();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
 
+  // This ensures the full intro only runs once per session.
   useEffect(() => {
-    if (step === 2) {
-      const timeout = setTimeout(() => setStep(3), 500); // flash duration
-      return () => clearTimeout(timeout);
+    if (isFirstLoad) {
+      const timer = setTimeout(() => setIsFirstLoad(false), 4000); // Duration of the full intro
+      return () => clearTimeout(timer);
     }
-    if (step === 3) {
-      const timeout = setTimeout(() => setIsVisible(false), 500); // fade out duration
-      return () => clearTimeout(timeout);
-    }
-  }, [step]);
+  }, [isFirstLoad]);
   
-  if (!isVisible) return null;
+  if (!isTransitioning) return null;
+
+  const messages: { [key: number]: string } = {
+    0: "Entering The BOLT Universe...",
+    1: "Welcome to the world of Kishan Patel.",
+    2: "Time-traveling to the About section...",
+    3: "Compiling project data...",
+    4: "Loading design templates...",
+    5: "Establishing neural link...",
+  };
+
+  const message = messages[transitionStep] || "Loading...";
 
   return (
     <motion.div
-      className={cn(
-        "fixed inset-0 z-[100] flex items-center justify-center bg-background",
-        step >= 2 && "bg-primary-foreground"
-      )}
-      initial={{ opacity: 1 }}
-      animate={{ opacity: step < 3 ? 1 : 0 }}
+      className={cn("fixed inset-0 z-[100] flex items-center justify-center bg-background")}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
     >
         <AnimatePresence mode="wait">
-            {step === 0 && (
-                <MatrixCode key="matrix" onFinished={() => setStep(1)} />
-            )}
-            {step === 1 && (
-                <WelcomeMessage key="welcome" onFinished={() => setStep(2)} />
+            {isFirstLoad ? (
+                 <motion.div key="full-intro">
+                    <AnimatePresence mode="wait">
+                        {transitionStep === 0 && <MatrixCode key="matrix" onFinished={endTransition} />}
+                        {transitionStep === 1 && <WelcomeMessage key="welcome" onFinished={endTransition} text={message} />}
+                    </AnimatePresence>
+                 </motion.div>
+            ) : (
+                <WelcomeMessage key="page-transition" onFinished={endTransition} text={message} />
             )}
         </AnimatePresence>
     </motion.div>
