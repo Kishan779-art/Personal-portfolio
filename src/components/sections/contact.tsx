@@ -11,6 +11,8 @@ import { useToast } from '@/hooks/use-toast';
 import { Send } from 'lucide-react';
 import { useState } from 'react';
 import Link from 'next/link';
+import { AnimatePresence } from 'framer-motion';
+import RocketAnimation from '@/components/rocket-animation';
 
 const contactFormSchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters.'),
@@ -36,6 +38,8 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 export default function Contact() {
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showRocketAnimation, setShowRocketAnimation] = useState(false);
+
   const form = useForm<ContactFormValues>({
     resolver: zodResolver(contactFormSchema),
     defaultValues: { name: '', email: '', message: '' },
@@ -43,18 +47,27 @@ export default function Contact() {
 
   async function onSubmit(data: ContactFormValues) {
     setIsSubmitting(true);
-    console.log(data);
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 1000));
-    toast({
-      title: 'Message Sent! 🚀',
-      description: "Thanks for reaching out. I'll get back to you soon.",
-    });
-    form.reset();
+    
     setIsSubmitting(false);
+    setShowRocketAnimation(true);
+
+    setTimeout(() => {
+        setShowRocketAnimation(false);
+        toast({
+            title: 'Message Sent! 🚀',
+            description: "Thanks for reaching out. I'll get back to you soon.",
+        });
+        form.reset();
+    }, 2500); // Animation duration + a small buffer
   }
 
   return (
+    <>
+    <AnimatePresence>
+        {showRocketAnimation && <RocketAnimation />}
+    </AnimatePresence>
     <section id="contact" className="relative space-y-16 overflow-hidden py-24">
        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] h-full bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)/0.1)_0%,_transparent_50%)] -z-10"></div>
       <div className="text-center">
@@ -118,5 +131,6 @@ export default function Contact() {
         </Form>
       </div>
     </section>
+    </>
   );
 }
