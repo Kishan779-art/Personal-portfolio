@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -8,6 +9,8 @@ import { ThemeToggle } from '@/components/theme-toggle';
 import { usePathname } from 'next/navigation';
 import { useClickSound } from '@/hooks/useClickSound';
 import { usePageTransition } from '@/hooks/use-page-transition';
+import { Sheet, SheetContent, SheetTrigger, SheetClose } from '@/components/ui/sheet';
+import { Menu, X } from 'lucide-react';
 
 const navItems = [
   { name: 'Home', href: '/', step: 0 },
@@ -19,6 +22,7 @@ const navItems = [
 
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const playClickSound = useClickSound();
   const { startTransition } = usePageTransition();
@@ -30,6 +34,10 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   const handleLinkClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string, step: number) => {
     e.preventDefault();
@@ -46,6 +54,57 @@ export default function Header() {
         startTransition('/contact', 5);
     }
   };
+
+  const MobileMenu = () => (
+    <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+        <SheetTrigger asChild>
+            <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-6 w-6" />
+                <span className="sr-only">Open menu</span>
+            </Button>
+        </SheetTrigger>
+        <SheetContent side="left" className="bg-background/95 backdrop-blur-lg">
+            <div className="flex flex-col h-full">
+                <div className="flex justify-between items-center p-4 border-b border-primary/20">
+                    <h2 className="font-headline text-2xl text-primary">Navigation</h2>
+                    <SheetClose asChild>
+                         <Button variant="ghost" size="icon">
+                            <X className="h-6 w-6" />
+                            <span className="sr-only">Close menu</span>
+                        </Button>
+                    </SheetClose>
+                </div>
+                <nav className="flex-grow flex flex-col justify-center items-center gap-8">
+                    {navItems.map((item) => (
+                        <SheetClose asChild key={item.name}>
+                            <Link
+                                href={item.href}
+                                onClick={(e) => handleLinkClick(e, item.href, item.step)}
+                                className={cn(
+                                    "text-2xl font-medium text-foreground/80 hover:text-primary relative group",
+                                    pathname === item.href && "text-primary"
+                                )}
+                            >
+                                {item.name}
+                            </Link>
+                        </SheetClose>
+                    ))}
+                    <SheetClose asChild>
+                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-background neon-glow w-4/5 mt-8" onClick={(e) => {
+                          e.preventDefault();
+                          playClickSound();
+                          if (pathname !== '/contact') {
+                              startTransition('/contact', 5);
+                          }
+                      }}>
+                        Hire Me
+                      </Button>
+                    </SheetClose>
+                </nav>
+            </div>
+        </SheetContent>
+    </Sheet>
+  );
 
   return (
     <motion.header
@@ -82,11 +141,14 @@ export default function Header() {
               </motion.div>
             ))}
           </nav>
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
             <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow" onClick={handleButtonClick}>
               Hire Me
             </Button>
             <ThemeToggle />
+            <div className="md:hidden">
+              <MobileMenu />
+            </div>
           </div>
         </div>
       </div>
