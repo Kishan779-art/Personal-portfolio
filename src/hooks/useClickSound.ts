@@ -1,13 +1,18 @@
+
 'use client';
 
 import { useCallback } from 'react';
 
-export function useClickSound() {
-  const playClickSound = useCallback(() => {
+type SoundType = 'click' | 'whoosh';
+type UseClickSoundProps = {
+  type?: SoundType;
+};
+
+export function useClickSound({ type = 'click' }: UseClickSoundProps = {}) {
+  const playSound = useCallback(() => {
     if (typeof window === 'undefined') return;
 
     try {
-      // Use a shared AudioContext
       // @ts-ignore
       const audioContext: AudioContext = window.audioContext || new (window.AudioContext || window.webkitAudioContext)();
       // @ts-ignore
@@ -17,26 +22,50 @@ export function useClickSound() {
         audioContext.resume();
       }
 
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
+      if (type === 'click') {
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+      } else if (type === 'whoosh') {
+        const bufferSize = audioContext.sampleRate * 0.5; // 0.5 second
+        const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
+        const output = buffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+          output[i] = Math.random() * 2 - 1;
+        }
 
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+        const whiteNoise = audioContext.createBufferSource();
+        whiteNoise.buffer = buffer;
 
-      // Sound parameters
-      oscillator.type = 'sine';
-      oscillator.frequency.setValueAtTime(800, audioContext.currentTime); // High pitch for a 'tick'
-      gainNode.gain.setValueAtTime(0.1, audioContext.currentTime); // Start with low volume
+        const bandpass = audioContext.createBiquadFilter();
+        bandpass.type = 'bandpass';
+        bandpass.frequency.setValueAtTime(400, audioContext.currentTime);
+        bandpass.Q.value = 1;
 
-      // Ramp up and down quickly
-      gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
-      
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.1);
+        const gainNode = audioContext.createGain();
+        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        
+        whiteNoise.connect(bandpass);
+        bandpass.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        bandpass.frequency.exponentialRampToValueAtTime(4000, audioContext.currentTime + 0.4);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+
+        whiteNoise.start(audioContext.currentTime);
+        whiteNoise.stop(audioContext.currentTime + 0.5);
+      }
     } catch (error) {
       console.error("Could not play sound:", error);
     }
-  }, []);
+  }, [type]);
 
-  return playClickSound;
+  return playSound;
 }

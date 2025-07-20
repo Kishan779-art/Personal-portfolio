@@ -14,10 +14,11 @@ export default function Hero() {
   const mouse = useRef({ x: 0, y: 0 });
   const router = useRouter();
   const playClickSound = useClickSound();
+  const playWhooshSound = useClickSound({ type: 'whoosh' });
 
 
   const handleExploreClick = () => {
-    playClickSound();
+    playWhooshSound();
     setIsExploring(true);
     setTimeout(() => {
       router.push('/about');
