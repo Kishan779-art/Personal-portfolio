@@ -12,7 +12,7 @@ const projects = [
     title: 'AI Resume Ranker & Builder',
     category: 'AI',
     description: 'Optimize your resume for any job description with our AI-powered tool. Get insights, suggestions, and a professional resume to land your dream job.',
-    image: 'https://placehold.co/600x400.png',
+    image: 'https://drive.google.com/uc?export=view&id=1o-n5yXXopi-_TS5axF25WoRPvXRcV82G',
     tags: ['Next.js', 'AI/ML', 'Tailwind CSS', 'Genkit'],
     liveUrl: 'https://ai-resume-ranker-builder.vercel.app/',
     githubUrl: 'https://github.com/Kishan779-art',
