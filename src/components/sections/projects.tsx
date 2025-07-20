@@ -26,7 +26,7 @@ const projects = [
     category: 'Web',
     description: 'A simple and easy-to-use QR code generator. Instantly create QR codes for URLs, text, and more. Customize and download your QR codes effortlessly.',
     longDescription: 'This web application provides a fast and intuitive way to generate custom QR codes. Built with a focus on a clean user interface and immediate feedback, users can input various data types like URLs or plain text and see the QR code generated in real-time. The tool is built with modern web technologies for a responsive and seamless experience across all devices.',
-    image: 'https://firebasestudio.app/storage/v1/object/public/github-kishan779-art-my-portfolio-2-0/framework-1721832049629.png',
+    image: '/qr-project.png',
     tags: ['React', 'Next.js', 'Tailwind CSS', 'Vercel'],
     liveUrl: 'https://kishanqrproject.vercel.app/',
     githubUrl: 'https://github.com/Kishan779-art',
