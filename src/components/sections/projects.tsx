@@ -1,18 +1,20 @@
+
 'use client'
 
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Github, ExternalLink } from 'lucide-react';
+import { Github, ExternalLink, RefreshCw } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { useRef } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useState } from 'react';
 
 const projects = [
   {
     title: 'AI Resume Ranker & Builder',
     category: 'AI',
     description: 'Optimize your resume for any job description with our AI-powered tool. Get insights, suggestions, and a professional resume to land your dream job.',
+    longDescription: 'This AI-driven platform analyzes resumes against job descriptions to provide a compatibility score and detailed feedback. It leverages Genkit AI to suggest improvements, identify missing keywords, and rephrase sections to better align with what recruiters are looking for. The builder feature then helps users construct an optimized resume from scratch, ensuring a higher chance of passing through automated screening systems.',
     image: 'https://drive.google.com/uc?export=view&id=1o-n5yXXopi-_TS5axF25WoRPvXRcV82G',
     tags: ['Next.js', 'AI/ML', 'Tailwind CSS', 'Genkit'],
     liveUrl: 'https://ai-resume-ranker-builder.vercel.app/',
@@ -70,7 +72,9 @@ const ProjectGrid = ({ projects }: { projects: typeof projects }) => {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12">
+        className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
+        style={{ perspective: '1200px' }}
+    >
         {projects.map((project, index) => (
             <ProjectCard key={index} {...project} />
         ))}
@@ -78,32 +82,8 @@ const ProjectGrid = ({ projects }: { projects: typeof projects }) => {
     )
 }
 
-const ProjectCard = ({ title, description, image, tags, liveUrl, githubUrl, aiHint }: (typeof projects)[0]) => {
-    const cardRef = useRef<HTMLDivElement>(null);
-    const x = useMotionValue(0);
-    const y = useMotionValue(0);
-    const xSpring = useSpring(x, { stiffness: 300, damping: 20 });
-    const ySpring = useSpring(y, { stiffness: 300, damping: 20 });
-    const rotateX = useTransform(ySpring, [-0.5, 0.5], ['10deg', '-10deg']);
-    const rotateY = useTransform(xSpring, [-0.5, 0.5], ['-10deg', '10deg']);
-
-    const handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-        if (!cardRef.current) return;
-        const rect = cardRef.current.getBoundingClientRect();
-        const width = rect.width;
-        const height = rect.height;
-        const mouseX = e.clientX - rect.left;
-        const mouseY = e.clientY - rect.top;
-        const xPct = mouseX / width - 0.5;
-        const yPct = mouseY / height - 0.5;
-        x.set(xPct);
-        y.set(yPct);
-    };
-
-    const handleMouseLeave = () => {
-        x.set(0);
-        y.set(0);
-    };
+const ProjectCard = ({ title, description, longDescription, image, tags, liveUrl, githubUrl, aiHint }: (typeof projects)[0]) => {
+    const [isFlipped, setIsFlipped] = useState(false);
 
     const cardVariants = {
         hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -115,60 +95,73 @@ const ProjectCard = ({ title, description, image, tags, liveUrl, githubUrl, aiHi
 
     return (
         <motion.div
-            ref={cardRef}
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
             variants={cardVariants}
-            className="group relative"
-            style={{ perspective: '1000px' }}
+            className="group relative h-[450px]"
+            onClick={() => setIsFlipped(!isFlipped)}
+            style={{ transformStyle: 'preserve-3d' }}
         >
-            <motion.div
-                style={{ rotateX, rotateY, scale: 1 }}
-                whileHover={{ scale: 1.05 }}
-                transition={{ type: 'spring' }}
-                className="w-full h-full"
-            >
-                <Card className="w-full h-full bg-card/50 border-primary/10 backdrop-blur-sm overflow-hidden flex flex-col transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/20">
-                    <div className="relative overflow-hidden">
-                        <Image src={image} alt={title} width={600} height={400} className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint={aiHint}/>
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-                    </div>
-                    <div className="p-6 flex flex-col flex-grow">
-                        <div className="overflow-hidden h-14">
-                            <motion.h3 
-                                initial={{ y: "100%" }}
-                                whileHover={{ y: 0 }}
-                                transition={{ type: 'spring', stiffness: 400, damping: 15 }}
-                                className="font-headline text-xl text-accent mb-2"
-                            >
-                                {title}
-                            </motion.h3>
+            <AnimatePresence>
+            {!isFlipped ? (
+                <motion.div
+                    key="front"
+                    className="absolute w-full h-full"
+                    style={{ backfaceVisibility: 'hidden' }}
+                    initial={{ rotateY: 0 }}
+                    exit={{ rotateY: 180 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <Card className="w-full h-full bg-card/50 border-primary/10 backdrop-blur-sm overflow-hidden flex flex-col transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/20">
+                        <div className="relative overflow-hidden">
+                            <Image src={image} alt={title} width={600} height={400} className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500" data-ai-hint={aiHint}/>
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                            <div className="absolute top-2 right-2 bg-background/50 p-1 rounded-full text-primary opacity-0 group-hover:opacity-100 transition-opacity">
+                                <RefreshCw className="w-4 h-4" />
+                            </div>
                         </div>
-                        <div className="overflow-hidden h-20">
-                           <motion.p
-                                initial={{ y: "100%" }}
-                                whileHover={{ y: 0 }}
-                                transition={{ type: 'spring', stiffness: 400, damping: 15, delay: 0.05 }}
-                                className="text-muted-foreground mb-4 text-sm flex-grow"
-                            >
-                                {description}
-                            </motion.p>
-                        </div>
-                        <div className="flex flex-wrap gap-2 mb-6 pt-2">
-                            {tags.map(tag => <span key={tag} className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full">{tag}</span>)}
-                        </div>
-                        <div className="flex justify-start gap-4 mt-auto">
-                            <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow">
-                                <a href={liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Live</a>
-                            </Button>
-                            <Button asChild variant="ghost" className="text-foreground hover:text-primary">
-                                <a href={githubUrl} target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" /> Code</a>
-                            </Button>
-                        </div>
-                    </div>
-                </Card>
-                 <div className="absolute inset-0 border-2 border-transparent group-hover:border-accent rounded-lg transition-all duration-300 pointer-events-none opacity-0 group-hover:opacity-75"></div>
-            </motion.div>
+                        <CardContent className="p-6 flex flex-col flex-grow">
+                            <h3 className="font-headline text-xl text-accent mb-2">{title}</h3>
+                            <p className="text-muted-foreground mb-4 text-sm flex-grow">{description}</p>
+                            <div className="flex flex-wrap gap-2 mb-6 pt-2">
+                                {tags.map(tag => <span key={tag} className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full">{tag}</span>)}
+                            </div>
+                            <div className="flex justify-start gap-4 mt-auto">
+                                <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow" onClick={(e) => e.stopPropagation()}>
+                                    <a href={liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Live</a>
+                                </Button>
+                                <Button asChild variant="ghost" className="text-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
+                                    <a href={githubUrl} target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" /> Code</a>
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            ) : (
+                <motion.div
+                    key="back"
+                    className="absolute w-full h-full"
+                    style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+                    initial={{ rotateY: -180 }}
+                    animate={{ rotateY: 0 }}
+                    exit={{ rotateY: -180 }}
+                    transition={{ duration: 0.6 }}
+                >
+                    <Card className="w-full h-full bg-card/80 border-accent/30 backdrop-blur-lg overflow-hidden flex flex-col transition-all duration-300">
+                         <CardContent className="p-6 flex flex-col flex-grow text-left">
+                            <h3 className="font-headline text-xl text-accent mb-2">{title} - More Info</h3>
+                            <p className="text-muted-foreground text-sm flex-grow overflow-y-auto">{longDescription}</p>
+                             <div className="flex justify-start gap-4 mt-auto pt-4">
+                                <Button asChild variant="outline" className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow" onClick={(e) => e.stopPropagation()}>
+                                    <a href={liveUrl} target="_blank" rel="noopener noreferrer"><ExternalLink className="mr-2 h-4 w-4" /> Live</a>
+                                </Button>
+                                <Button asChild variant="ghost" className="text-foreground hover:text-primary" onClick={(e) => e.stopPropagation()}>
+                                    <a href={githubUrl} target="_blank" rel="noopener noreferrer"><Github className="mr-2 h-4 w-4" /> Code</a>
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+                </motion.div>
+            )}
+            </AnimatePresence>
         </motion.div>
     );
 };
