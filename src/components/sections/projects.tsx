@@ -26,7 +26,7 @@ const projects = [
     category: 'Web',
     description: 'An advanced expense tracking application to manage your finances with real-time updates and detailed data visualizations.',
     longDescription: 'An advanced expense tracking application designed to provide a seamless and intuitive experience for managing your finances. With real-time updates, secure authentication, and detailed data visualizations, Bolt-Ledger helps you stay on top of your spending effortlessly.',
-    image: 'https://placehold.co/600x400.png',
+    image: '/bolt-ledger.png',
     tags: ['Next.js', 'Firebase', 'Data Visualization', 'Web'],
     liveUrl: 'https://bolt-ledger.vercel.app/',
     githubUrl: 'https://github.com/Kishan779-art',
