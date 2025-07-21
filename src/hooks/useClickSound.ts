@@ -22,19 +22,26 @@ export function useClickSound({ type = 'click' }: UseClickSoundProps = {}) {
         audioContext.resume();
       }
 
+      const now = audioContext.currentTime;
+
       if (type === 'click') {
         const oscillator = audioContext.createOscillator();
         const gainNode = audioContext.createGain();
         oscillator.connect(gainNode);
         gainNode.connect(audioContext.destination);
-        oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(800, audioContext.currentTime);
-        gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.00001, audioContext.currentTime + 0.1);
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.1);
+        
+        oscillator.type = 'triangle';
+        oscillator.frequency.setValueAtTime(900, now);
+        oscillator.frequency.exponentialRampToValueAtTime(150, now + 0.1);
+
+        gainNode.gain.setValueAtTime(0.08, now);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, now + 0.1);
+        
+        oscillator.start(now);
+        oscillator.stop(now + 0.1);
+
       } else if (type === 'whoosh' || type === 'transition') {
-        const bufferSize = audioContext.sampleRate * 0.5; // 0.5 second
+        const bufferSize = audioContext.sampleRate * 0.4; // 0.4 second
         const buffer = audioContext.createBuffer(1, bufferSize, audioContext.sampleRate);
         const output = buffer.getChannelData(0);
         for (let i = 0; i < bufferSize; i++) {
@@ -46,21 +53,21 @@ export function useClickSound({ type = 'click' }: UseClickSoundProps = {}) {
 
         const bandpass = audioContext.createBiquadFilter();
         bandpass.type = 'bandpass';
-        bandpass.frequency.setValueAtTime(400, audioContext.currentTime);
+        bandpass.frequency.setValueAtTime(200, now);
         bandpass.Q.value = 1;
 
         const gainNode = audioContext.createGain();
-        gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+        gainNode.gain.setValueAtTime(0.2, now);
         
         whiteNoise.connect(bandpass);
         bandpass.connect(gainNode);
         gainNode.connect(audioContext.destination);
 
-        bandpass.frequency.exponentialRampToValueAtTime(4000, audioContext.currentTime + 0.4);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.4);
+        bandpass.frequency.exponentialRampToValueAtTime(3000, now + 0.3);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
 
-        whiteNoise.start(audioContext.currentTime);
-        whiteNoise.stop(audioContext.currentTime + 0.5);
+        whiteNoise.start(now);
+        whiteNoise.stop(now + 0.4);
       }
     } catch (error) {
       console.error("Could not play sound:", error);
