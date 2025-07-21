@@ -19,9 +19,9 @@ const skills = [
 ];
 
 const timeline = [
-    { year: 'Present', title: 'B.Tech in AI & Machine Learning', institution: 'University Name (To be updated)' },
-    { year: '2023', title: 'Lead ML Engineer', institution: 'InnovateAI Corp.' },
-    { year: '2022', title: 'AI Research Intern', institution: 'Future Systems Inc.' },
+    { year: 'Present', title: 'B.Tech in Artificial Intelligence & Machine Learning', institution: 'University Name (To be updated)' },
+    { year: '2024', title: 'Completed Higher Studies', institution: 'Your School (To be updated)' },
+    { year: '2023', title: 'Started Learning AI', institution: 'Self-Study & Online Courses' },
 ];
 
 const stats = [
