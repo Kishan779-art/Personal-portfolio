@@ -37,7 +37,7 @@ const projects = [
     category: 'Automation',
     description: 'A smart auto-typing web tool that mimics human-like typing, built using Python, Selenium, and OCR to achieve over 100 WPM with high precision.',
     longDescription: 'A smart auto-typing web tool that mimics human-like typing on TypingBolt.com. Built using Python, Selenium, and OCR, it reads the target text and types it automatically — achieving 100+ WPM with precision. Great for exploring browser automation, UI interaction, and AI-in-action. Fully powered by BOLT UNIVERSE.',
-    image: 'https://placehold.co/600x400.png',
+    image: '/typing-bolt.png',
     tags: ['Python', 'Selenium', 'Automation', 'OCR'],
     liveUrl: 'https://bolt-typing.vercel.app/',
     githubUrl: 'https://github.com/Kishan779-art/Typing-Bolt',
