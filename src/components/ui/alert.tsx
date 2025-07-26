@@ -4,13 +4,19 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const alertVariants = cva(
-  "relative w-full rounded-lg border p-4 [&>svg~*]:pl-7 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground",
+  // Glassmorphism, neon border, shadow, icon layout
+  "relative w-full rounded-xl border p-5 pr-8 bg-card/80 backdrop-blur-lg shadow-xl transition-all duration-300 overflow-hidden neon-glow",
   {
     variants: {
       variant: {
-        default: "bg-background text-foreground",
+        default:
+          "border-primary/30 text-foreground [&>svg]:text-primary",
         destructive:
-          "border-destructive/50 text-destructive dark:border-destructive [&>svg]:text-destructive",
+          "border-destructive/60 text-destructive bg-destructive/10 dark:border-destructive/80 [&>svg]:text-destructive",
+        success:
+          "border-green-500/60 text-green-700 bg-green-100/60 dark:border-green-400/80 [&>svg]:text-green-500",
+        info:
+          "border-accent/60 text-accent bg-accent/10 dark:border-accent/80 [&>svg]:text-accent",
       },
     },
     defaultVariants: {
@@ -26,19 +32,27 @@ const Alert = React.forwardRef<
   <div
     ref={ref}
     role="alert"
-    className={cn(alertVariants({ variant }), className)}
+    className={cn(
+      alertVariants({ variant }),
+      "[&>svg~*]:pl-10 [&>svg]:absolute [&>svg]:left-5 [&>svg]:top-5 [&>svg]:text-2xl",
+      "hover:shadow-primary/30 group transition-shadow duration-300",
+      className
+    )}
     {...props}
   />
 ))
 Alert.displayName = "Alert"
 
 const AlertTitle = React.forwardRef<
-  HTMLParagraphElement,
+  HTMLHeadingElement,
   React.HTMLAttributes<HTMLHeadingElement>
 >(({ className, ...props }, ref) => (
   <h5
     ref={ref}
-    className={cn("mb-1 font-medium leading-none tracking-tight", className)}
+    className={cn(
+      "mb-1 font-headline text-lg font-bold leading-none tracking-tight text-primary animate-gradient-x bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow",
+      className
+    )}
     {...props}
   />
 ))
@@ -50,7 +64,10 @@ const AlertDescription = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <div
     ref={ref}
-    className={cn("text-sm [&_p]:leading-relaxed", className)}
+    className={cn(
+      "text-base text-muted-foreground mt-1 animate-fade-in",
+      className
+    )}
     {...props}
   />
 ))

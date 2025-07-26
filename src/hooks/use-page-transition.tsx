@@ -7,7 +7,7 @@ import { useClickSound } from './useClickSound';
 type PageTransitionContextType = {
   isTransitioning: boolean;
   transitionStep: number;
-  startTransition: (path: string, step: number) => void;
+  startTransition: (path: string, step?: number) => void;
   endTransition: () => void;
 };
 
@@ -15,46 +15,50 @@ const PageTransitionContext = createContext<PageTransitionContextType | undefine
 
 export const PageTransitionProvider = ({ children }: { children: ReactNode }) => {
   const [isTransitioning, setIsTransitioning] = useState(true);
-  const [transitionStep, setTransitionStep] = useState(0); // 0: Matrix, 1: Welcome
+  const [transitionStep, setTransitionStep] = useState(0); // 0: Matrix, 1: Welcome, etc.
   const [nextPath, setNextPath] = useState<string | null>(null);
   const router = useRouter();
   const playTransitionSound = useClickSound({ type: 'transition' });
 
-  const startTransition = useCallback((path: string, step: number) => {
+  // Start a transition with optional step (default 0)
+  const startTransition = useCallback((path: string, step: number = 0) => {
     playTransitionSound();
     setTransitionStep(step);
     setNextPath(path);
     setIsTransitioning(true);
   }, [playTransitionSound]);
 
+  // End transition, handle initial load and navigation
   const endTransition = useCallback(() => {
     if (nextPath) {
       router.push(nextPath);
       setNextPath(null);
-      // Wait for router to push and component to unmount before finishing transition
-      setTimeout(() => setIsTransitioning(false), 500); 
+      setTimeout(() => setIsTransitioning(false), 500); // Allow animation to finish
     } else {
-        // This handles the initial load animation
-        if(transitionStep === 0) {
-            setTransitionStep(1); // Move to welcome message
-        } else {
-            setIsTransitioning(false);
-        }
+      // Initial load: step 0 -> 1, then finish
+      if (transitionStep === 0) {
+        setTransitionStep(1);
+      } else {
+        setIsTransitioning(false);
+      }
     }
   }, [nextPath, router, transitionStep]);
 
-  // Handle back/forward browser navigation
+  // Sync with browser navigation (back/forward)
   useEffect(() => {
-    const handleRouteChange = () => {
-        setIsTransitioning(false);
-    };
-    // Using a simple event listener on popstate, though more robust solutions exist
+    const handleRouteChange = () => setIsTransitioning(false);
     window.addEventListener('popstate', handleRouteChange);
-    return () => {
-        window.removeEventListener('popstate', handleRouteChange);
-    }
+    return () => window.removeEventListener('popstate', handleRouteChange);
   }, []);
 
+  // Optionally, you can add a global keyboard shortcut to skip transitions
+  // useEffect(() => {
+  //   const handleKey = (e: KeyboardEvent) => {
+  //     if (e.key === 'Escape') setIsTransitioning(false);
+  //   };
+  //   window.addEventListener('keydown', handleKey);
+  //   return () => window.removeEventListener('keydown', handleKey);
+  // }, []);
 
   return (
     <PageTransitionContext.Provider value={{ isTransitioning, transitionStep, startTransition, endTransition }}>

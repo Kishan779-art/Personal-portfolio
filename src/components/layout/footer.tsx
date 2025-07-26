@@ -33,22 +33,24 @@ export default function Footer() {
           Thanks for visiting the Universe!
         </p>
         <div className="flex justify-center space-x-6 mb-8">
-          {socialLinks.map((link) => (
-            <Link
-              key={link.name}
-              href={link.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="group text-foreground/70 hover:text-primary transition-all duration-300"
-              aria-label={link.name}
-            >
-              <span className="inline-block p-2 rounded-full bg-card/60 group-hover:bg-primary/10 shadow-md transition">
-                {/* @ts-expect-error: icon can be a component */}
-                <link.icon className="w-8 h-8 group-hover:scale-110 transition-transform" />
-              </span>
-              <span className="sr-only">{link.name}</span>
-            </Link>
-          ))}
+          {socialLinks.map((link) => {
+            const Icon = link.icon;
+            return (
+              <Link
+                key={link.name}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group text-foreground/70 hover:text-primary transition-all duration-300"
+                aria-label={link.name}
+              >
+                <span className="inline-block p-2 rounded-full bg-card/60 group-hover:bg-primary/10 shadow-md transition">
+                  <Icon className="w-8 h-8 group-hover:scale-110 transition-transform" />
+                </span>
+                <span className="sr-only">{link.name}</span>
+              </Link>
+            );
+          })}
         </div>
         <p className="text-muted-foreground text-sm md:text-base">
           &copy; {new Date().getFullYear()} <span className="font-semibold text-primary">Kishan Patel</span>. All rights reserved.

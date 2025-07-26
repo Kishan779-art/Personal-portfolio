@@ -1,7 +1,9 @@
+/* --- Tailwind base --- */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* --- Color & Theme Variables --- */
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -49,26 +51,44 @@
   }
 }
 
+/* --- Base Styles --- */
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Space Grotesk', 'Inter', 'Segoe UI', Arial, sans-serif;
+    scroll-behavior: smooth;
+    min-height: 100vh;
+    background-image: linear-gradient(135deg, hsl(var(--background)), hsl(var(--accent) / 0.07) 60%, hsl(var(--primary) / 0.07));
+    background-attachment: fixed;
   }
   .dark body {
     background-color: #121212;
   }
 }
 
+/* --- Neon Glow & Glassmorphism --- */
 .neon-glow {
-  box-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary)), 0 0 15px hsl(var(--primary));
+  box-shadow:
+    0 0 8px 2px hsl(var(--primary) / 0.7),
+    0 0 24px 4px hsl(var(--primary) / 0.5),
+    0 0 48px 8px hsl(var(--primary) / 0.3);
 }
-
 .neon-glow-text {
-  text-shadow: 0 0 5px hsl(var(--primary)), 0 0 10px hsl(var(--primary));
+  text-shadow:
+    0 0 8px hsl(var(--primary) / 0.7),
+    0 0 24px hsl(var(--primary) / 0.5);
+}
+.glass-card {
+  background: rgba(255,255,255,0.08);
+  backdrop-filter: blur(16px);
+  border: 1.5px solid hsl(var(--primary) / 0.18);
+  box-shadow: 0 8px 32px 0 hsl(var(--primary) / 0.12);
 }
 
+/* --- Typewriter Animation --- */
 @keyframes typing {
   from { width: 0 }
   to { width: 100% }
@@ -77,42 +97,122 @@
   from, to { border-color: transparent }
   50% { border-color: hsl(var(--primary)); }
 }
-
 .typewriter-text {
   overflow: hidden;
   border-right: .15em solid hsl(var(--primary));
   white-space: nowrap;
   letter-spacing: .1em;
-  animation: typing 3.5s steps(40, end), blink-caret .75s step-end infinite;
+  animation:
+    typing 2.5s cubic-bezier(0.77, 0, 0.175, 1) 1,
+    blink-caret .75s step-end infinite;
 }
 
+/* --- Smoother Slide/Fade Animations --- */
 @keyframes slide-in-fade {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(32px) scale(0.98);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateY(0) scale(1);
   }
 }
 .animate-slide-in-fade {
-  animation: slide-in-fade 1s ease-out forwards;
+  animation: slide-in-fade 0.7s cubic-bezier(0.77, 0, 0.175, 1) forwards;
 }
 
-/* Light theme specific styles */
+/* --- Futuristic Glow Pulse --- */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.5); }
+  50% { box-shadow: 0 0 24px 8px hsl(var(--primary) / 0.7); }
+}
+.animate-glow-pulse {
+  animation: glow-pulse 1.8s infinite cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* --- Border Glow Animation --- */
+@keyframes border-glow {
+  0% { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+.animate-border-glow {
+  animation: border-glow 3s linear infinite;
+}
+
+/* --- Fade In Animation --- */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.animate-fade-in {
+  animation: fade-in 1.2s cubic-bezier(0.77, 0, 0.175, 1) both;
+}
+
+/* --- Gradient Text Animation --- */
+@keyframes gradient-x {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+.animate-gradient-x {
+  background-size: 200% 200%;
+  animation: gradient-x 4s ease-in-out infinite;
+}
+
+/* --- Floating SVG Animations for Icons --- */
+@keyframes float {
+  0%, 100% { transform: translateY(0px);}
+  50% { transform: translateY(-18px);}
+}
+.animate-float { animation: float 4s ease-in-out infinite; }
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0px);}
+  50% { transform: translateY(24px);}
+}
+.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+/* --- Light theme specific styles --- */
 .light .bg-card\/50 {
-    background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .light .backdrop-blur-lg {
-    backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
 }
 .light .border-primary\/20 {
-    border-color: hsl(var(--primary) / 0.2);
+  border-color: hsl(var(--primary) / 0.2);
 }
 .light .bg-black\/50 {
-    background-color: rgba(240, 240, 240, 0.5);
+  background-color: rgba(240, 240, 240, 0.5);
 }
 .light .text-foreground\/80 {
-    color: hsl(var(--foreground) / 0.8);
+  color: hsl(var(--foreground) / 0.8);
+}
+
+/* --- Enhanced scrollbar for a modern look --- */
+::-webkit-scrollbar {
+  width: 10px;
+  background: hsl(var(--background));
+}
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(120deg, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.3));
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(120deg, hsl(var(--primary) / 0.5), hsl(var(--accent) / 0.5));
+}
+
+/* --- Section backgrounds for pro look --- */
+.section-blur-bg {
+  position: absolute;
+  z-index: -10;
+  border-radius: 9999px;
+  filter: blur(80px);
+  opacity: 0.18;
+  pointer-events: none;
+}
+.section-blur-bg.primary {
+  background: linear-gradient(135deg, hsl(var(--primary) / 0.3), hsl(var(--accent) / 0.15));
+}
+.section-blur-bg.accent {
+  background: linear-gradient(135deg, hsl(var(--accent) / 0.25), hsl(var(--secondary) / 0.12));
 }
