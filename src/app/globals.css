@@ -161,15 +161,30 @@
 
 /* --- Floating SVG Animations for Icons --- */
 @keyframes float {
-  0%, 100% { transform: translateY(0px);}
-  50% { transform: translateY(-18px);}
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-18px);
+  }
 }
-.animate-float { animation: float 4s ease-in-out infinite; }
+
 @keyframes float-slow {
-  0%, 100% { transform: translateY(0px);}
-  50% { transform: translateY(24px);}
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(24px);
+  }
 }
-.animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
 
 /* --- Light theme specific styles --- */
 .light .bg-card\/50 {
