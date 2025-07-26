@@ -43,6 +43,7 @@ export default function Footer() {
               aria-label={link.name}
             >
               <span className="inline-block p-2 rounded-full bg-card/60 group-hover:bg-primary/10 shadow-md transition">
+                {/* @ts-expect-error: icon can be a component */}
                 <link.icon className="w-8 h-8 group-hover:scale-110 transition-transform" />
               </span>
               <span className="sr-only">{link.name}</span>
