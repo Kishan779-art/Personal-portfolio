@@ -1,4 +1,3 @@
-
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -81,16 +80,20 @@ export default function Header() {
                                 href={item.href}
                                 onClick={(e) => handleLinkClick(e, item.href, item.step)}
                                 className={cn(
-                                    "text-2xl font-medium text-foreground/80 hover:text-primary relative group",
+                                    "text-2xl font-medium text-foreground/80 hover:text-primary relative group transition-all duration-200",
                                     pathname === item.href && "text-primary"
                                 )}
                             >
                                 {item.name}
+                                <span className={cn(
+                                  "absolute bottom-[-4px] left-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full",
+                                  pathname === item.href ? "w-full" : "w-0"
+                                )}></span>
                             </Link>
                         </SheetClose>
                     ))}
                     <SheetClose asChild>
-                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-background neon-glow w-4/5 mt-8" onClick={(e) => {
+                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-background neon-glow w-4/5 mt-8 shadow-lg transition-all duration-200" onClick={(e) => {
                           e.preventDefault();
                           playClickSound();
                           if (pathname !== '/contact') {
@@ -108,18 +111,23 @@ export default function Header() {
 
   return (
     <motion.header
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ y: -100, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.5, type: "spring", stiffness: 80 }}
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-300',
         scrolled ? 'bg-background/80 backdrop-blur-lg border-b border-primary/20 shadow-lg shadow-primary/10' : 'bg-transparent'
       )}
     >
+      {/* Decorative blurred glow */}
+      <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/20 rounded-full blur-2xl opacity-30 pointer-events-none -z-10"></div>
+      <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-accent/20 rounded-full blur-2xl opacity-20 pointer-events-none -z-10"></div>
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
-          <Link href="/" onClick={(e) => handleLinkClick(e, '/', 0)} className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text">
-            Kishan Patel
+          <Link href="/" onClick={(e) => handleLinkClick(e, '/', 0)} className="text-2xl font-bold font-headline text-primary hover:text-accent transition-colors duration-300 neon-glow-text tracking-tight drop-shadow-lg">
+            <span className="inline-block animate-gradient-x bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent">
+              Kishan Patel
+            </span>
           </Link>
           <nav className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
@@ -128,7 +136,7 @@ export default function Header() {
                   href={item.href}
                   onClick={(e) => handleLinkClick(e, item.href, item.step)}
                   className={cn(
-                    "text-lg font-medium text-foreground/80 hover:text-primary relative group",
+                    "text-lg font-medium text-foreground/80 hover:text-primary relative group transition-all duration-200",
                     pathname === item.href && "text-primary"
                   )}
                 >
@@ -142,7 +150,7 @@ export default function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow" onClick={handleButtonClick}>
+            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow shadow-lg transition-all duration-200" onClick={handleButtonClick}>
               Hire Me
             </Button>
             <ThemeToggle />

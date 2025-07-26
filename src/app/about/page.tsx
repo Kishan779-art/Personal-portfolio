@@ -1,4 +1,3 @@
-
 'use client';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
@@ -7,9 +6,10 @@ import Image from "next/image";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import { useTypewriter } from "@/hooks/use-typewriter";
-import { motion, useInView } from "framer-motion";
+import { motion } from "framer-motion";
 import { useRef } from "react";
 import AnimatedCounter from "@/components/animated-counter";
+import { useInView } from "framer-motion";
 
 const skills = [
   { name: 'Python & AI/ML', value: 95, details: 'TensorFlow, PyTorch, Scikit-learn, LangChain' },
@@ -40,7 +40,14 @@ export default function AboutPage() {
     <div className="flex flex-col min-h-screen bg-background text-foreground">
         <Header />
         <main className="flex-grow pt-24">
-            <section id="about" className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16 py-16">
+            <motion.section
+              id="about"
+              className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-16 py-16"
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ duration: 0.8 }}
+            >
                 <div className="text-center">
                     <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary animate-pulse">About Me</h2>
                     <p className="mt-4 text-lg text-muted-foreground">The Origin Story</p>
@@ -124,7 +131,15 @@ export default function AboutPage() {
                     </Accordion>
                     </div>
                 </div>
-            </section>
+                <div className="text-center mt-16">
+  <a
+    href="/contact"
+    className="inline-block px-8 py-3 bg-primary text-white rounded-lg shadow-lg hover:bg-accent transition"
+  >
+    Let’s Connect!
+  </a>
+</div>
+            </motion.section>
         </main>
         <Footer />
     </div>
