@@ -6,25 +6,25 @@
 /* --- Color & Theme Variables --- */
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 181 100% 32%;
+    --background: 220 20% 98%;
+    --foreground: 220 10% 20%;
+    --card: 220 20% 100%;
+    --card-foreground: 220 10% 20%;
+    --popover: 220 20% 100%;
+    --popover-foreground: 220 10% 20%;
+    --primary: 217 91% 60%;
     --primary-foreground: 210 40% 98%;
-    --secondary: 290 62% 82%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 330 100% 81%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 181 100% 32%;
+    --secondary: 216 34% 92%;
+    --secondary-foreground: 217 91% 60%;
+    --muted: 220 9% 94%;
+    --muted-foreground: 220 9% 45%;
+    --accent: 38 92% 50%;
+    --accent-foreground: 38 92% 20%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 217 91% 60%;
     --radius: 0.5rem;
   }
 
