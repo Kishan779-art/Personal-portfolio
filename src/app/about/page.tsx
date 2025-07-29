@@ -81,7 +81,7 @@ export default function AboutPage() {
               </div>
             </div>
             <div className="md:col-span-3">
-              <Card className="bg-card/60 border-primary/20 backdrop-blur-md shadow-lg">
+              <Card className="bg-card/60 border-primary/20 backdrop-blur-md shadow-2xl">
                 <CardHeader>
                   <CardTitle className="text-accent font-headline text-2xl">My Journey</CardTitle>
                 </CardHeader>
@@ -125,14 +125,19 @@ export default function AboutPage() {
                 {timeline.map((item, index) => (
                   <div key={index} className="relative group hover:scale-105 transition-transform duration-300" aria-label={`${item.year} - ${item.title} at ${item.institution}`} tabIndex={0}>
                     <div className="absolute -left-[38px] top-1 w-4 h-4 rounded-full bg-gradient-to-br from-primary to-accent neon-glow group-hover:scale-125 transition-transform"></div>
-                    <p className="font-bold text-accent">{item.year}</p>
+                    <p className="font-bold text-accent">{item.year} </p>
                     <h4 className="font-semibold text-lg text-foreground">{item.title}</h4>
                     <p className="text-muted-foreground">{item.institution}</p>
                   </div>
                 ))}
               </div>
             </div>
-            <div>
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8, delay: 0.2 }}
+              viewport={{ once: true, amount: 0.2 }}
+            >
               <h3 className="font-headline text-3xl font-bold text-primary mb-8">Skills</h3>
               <Accordion type="single" collapsible className="w-full">
                 {skills.map((skill) => (
@@ -157,7 +162,7 @@ export default function AboutPage() {
                   </AccordionItem>
                 ))}
               </Accordion>
-            </div>
+            </motion.div>
           </div>
 
           <Testimonials />
