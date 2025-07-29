@@ -67,79 +67,62 @@ export default function Contact() {
       <AnimatePresence>
         {showRocketAnimation && <RocketAnimation />}
       </AnimatePresence>
-      <motion.section
-        id="contact"
-        className="relative space-y-16 overflow-hidden py-24"
-        initial={{ opacity: 0, y: 40 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8 }}
-      >
-        {/* Decorative blurred background */}
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[200%] h-full bg-[radial-gradient(ellipse_at_center,_hsl(var(--primary)/0.10)_0%,_transparent_60%)] -z-10"></div>
-        <div className="absolute -top-16 -left-16 w-72 h-72 bg-primary/20 rounded-full blur-3xl opacity-20 -z-10"></div>
-        <div className="absolute -bottom-16 -right-16 w-96 h-96 bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
-        <div className="text-center">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary animate-pulse">Neural Link</h2>
-          <p className="mt-4 text-lg text-muted-foreground">Send a signal into the universe. I'll be listening.</p>
-        </div>
-        <div className="max-w-2xl mx-auto">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-accent">Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Your name" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-accent">Email</FormLabel>
-                    <FormControl>
-                      <Input placeholder="your.email@example.com" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="message"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-accent">Message</FormLabel>
-                    <FormControl>
-                      <Textarea placeholder="Your message..." {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 neon-glow shadow-lg transition-all duration-200">
-                  {isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-4 w-4" /></>}
-                </Button>
-                <Button asChild className="w-full bg-green-500 text-white hover:bg-green-600 animate-glow-pulse shadow-lg transition-all duration-200">
-                  <Link href="https://wa.me/918200945102" target="_blank">
-                    <WhatsAppIcon className="mr-2 h-5 w-5" />
-                    Contact on WhatsApp
-                  </Link>
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </div>
-      </motion.section>
+      <div className="max-w-2xl mx-auto">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-accent">Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Your name" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-accent">Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="your.email@example.com" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="message"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-accent">Message</FormLabel>
+                  <FormControl>
+                    <Textarea placeholder="Your message..." {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 neon-glow shadow-lg transition-all duration-200">
+                {isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-4 w-4" /></>}
+              </Button>
+              <Button asChild className="w-full bg-green-500 text-white hover:bg-green-600 animate-glow-pulse shadow-lg transition-all duration-200">
+                <Link href="https://wa.me/918200945102" target="_blank">
+                  <WhatsAppIcon className="mr-2 h-5 w-5" />
+                  Contact on WhatsApp
+                </Link>
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </div>
     </>
   );
 }
