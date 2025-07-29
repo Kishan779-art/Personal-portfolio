@@ -11,6 +11,7 @@ import { useRef } from "react";
 import AnimatedCounter from "@/components/animated-counter";
 import { useInView } from "framer-motion";
 import { Sparkles } from "lucide-react";
+import Testimonials from "@/components/sections/testimonials";
 
 const skills = [
   { name: 'Python & AI/ML', value: 95, details: 'TensorFlow, PyTorch, Scikit-learn, LangChain' },
@@ -122,7 +123,7 @@ export default function AboutPage() {
               <h3 className="font-headline text-3xl font-bold text-primary mb-8">Timeline</h3>
               <div className="relative border-l-2 border-primary/30 pl-8 space-y-12">
                 {timeline.map((item, index) => (
-                  <div key={index} className="relative group">
+                  <div key={index} className="relative group hover:scale-105 transition-transform duration-300" aria-label={`${item.year} - ${item.title} at ${item.institution}`} tabIndex={0}>
                     <div className="absolute -left-[38px] top-1 w-4 h-4 rounded-full bg-gradient-to-br from-primary to-accent neon-glow group-hover:scale-125 transition-transform"></div>
                     <p className="font-bold text-accent">{item.year}</p>
                     <h4 className="font-semibold text-lg text-foreground">{item.title}</h4>
@@ -143,7 +144,12 @@ export default function AboutPage() {
                       <div className="space-y-4 p-4 bg-background/60 rounded-md">
                         <Progress
                           value={skill.value}
-                          className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-primary [&>div]:to-accent transition-all duration-700"
+                          className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-primary [&>div]:to-accent transition-all duration-700 hover:brightness-110"
+                          aria-valuenow={skill.value}
+                          aria-valuemin={0}
+                          aria-valuemax={100}
+                          role="progressbar"
+                          tabIndex={0}
                         />
                         <p className="text-sm text-muted-foreground">{skill.details}</p>
                       </div>
@@ -153,10 +159,14 @@ export default function AboutPage() {
               </Accordion>
             </div>
           </div>
+
+          <Testimonials />
+
           <div className="text-center mt-20">
             <a
               href="/contact"
               className="inline-block px-10 py-4 bg-gradient-to-r from-primary via-accent to-secondary text-white font-bold rounded-xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 animate-glow-pulse"
+              aria-label="Contact me"
             >
               Let’s Connect!
             </a>
