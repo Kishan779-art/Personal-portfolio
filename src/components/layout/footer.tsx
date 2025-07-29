@@ -1,5 +1,5 @@
 import { Github, Instagram } from 'lucide-react';
-import Link from 'next/link';
+import Link from 'next/link';import { Input } from "@/components/ui/input"
 
 const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   <svg
@@ -14,24 +14,39 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
   </svg>
 );
 
+
 const socialLinks = [
   { name: 'GitHub', icon: Github, href: 'https://github.com/Kishan779-art' },
   { name: 'WhatsApp', icon: WhatsAppIcon, href: 'https://wa.me/918200945102' },
   { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/kishan_patel_7799_/' },
 ];
 
+
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12 bg-gradient-to-br from-background via-accent/10 to-primary/10">
       {/* Animated border glow */}
       <div className="absolute top-0 left-0 w-full h-[2px] animate-border-glow bg-[linear-gradient(to_right,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--secondary)),hsl(var(--primary)))] bg-[length:200%_auto]"></div>
+
       {/* Decorative blurred shapes */}
       <div className="absolute -top-16 -left-16 w-72 h-72 bg-primary/20 rounded-full blur-3xl opacity-30 -z-10"></div>
       <div className="absolute -bottom-16 -right-16 w-96 h-96 bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
         <p className="font-headline text-2xl md:text-3xl text-primary mb-4 animate-fade-in">
           Thanks for visiting the Universe!
         </p>
+
+        {/* Newsletter Signup Form */}
+        <div className="mb-8">
+          <p className="text-muted-foreground text-sm md:text-base mb-2">
+            Subscribe to my newsletter for the latest updates:
+          </p>
+          <div className="flex justify-center">
+            <Input type="email" placeholder="Enter your email" className="max-w-md rounded-full text-center"/>
+          </div>
+        </div>
+
         <div className="flex justify-center space-x-6 mb-8">
           {socialLinks.map((link) => {
             const Icon = link.icon;
@@ -52,8 +67,11 @@ export default function Footer() {
             );
           })}
         </div>
+
         <p className="text-muted-foreground text-sm md:text-base">
-          &copy; {new Date().getFullYear()} <span className="font-semibold text-primary">Kishan Patel</span>. All rights reserved.
+          &copy; {new Date().getFullYear()} <span className="font-semibold text-primary">Kishan Patel</span>.
+           All rights reserved. Unauthorized reproduction, distribution, or modification of this content is strictly prohibited.
+          For permissions, contact kishanpatel779@gmail.com.
         </p>
       </div>
     </footer>
