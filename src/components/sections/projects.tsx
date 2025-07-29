@@ -1,3 +1,4 @@
+
 'use client'
 
 import { Card, CardContent } from '@/components/ui/card';
@@ -5,8 +6,8 @@ import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { Github, ExternalLink, RefreshCw, Sparkles } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
+import { useState, useRef } from 'react';
 
 const projects = [
 	{
@@ -70,19 +71,6 @@ export default function Projects() {
 			{/* Decorative blurred shapes */}
 			<div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-20 -z-10"></div>
 			<div className="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
-			<div className="text-center">
-				<span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/70 border border-primary/20 text-primary font-semibold shadow-md mb-6 animate-fade-in">
-					<Sparkles className="w-5 h-5 text-accent" />
-					Featured Projects
-				</span>
-				<h2 className="font-headline text-4xl md:text-5xl font-bold text-primary animate-pulse drop-shadow-lg">
-					My Arsenal
-				</h2>
-				<p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-					A selection of my proudest creations, blending AI, automation, and web
-					magic.
-				</p>
-			</div>
 
 			<Tabs defaultValue="all" className="w-full text-center">
 				<TabsList className="bg-card/50 border border-primary/20 shadow-md">
@@ -92,24 +80,20 @@ export default function Projects() {
 					<TabsTrigger value="Automation">Automation</TabsTrigger>
 				</TabsList>
 
-				<TabsContent value="all">
-					<ProjectGrid projects={projects} />
-				</TabsContent>
-				<TabsContent value="AI">
-					<ProjectGrid
-						projects={projects.filter((p) => p.category === 'AI')}
-					/>
-				</TabsContent>
-				<TabsContent value="Web">
-					<ProjectGrid
-						projects={projects.filter((p) => p.category === 'Web')}
-					/>
-				</TabsContent>
-				<TabsContent value="Automation">
-					<ProjectGrid
-						projects={projects.filter((p) => p.category === 'Automation')}
-					/>
-				</TabsContent>
+				<AnimatePresence mode="wait">
+					<TabsContent value="all" forceMount>
+						<ProjectGrid projects={projects} key="all" />
+					</TabsContent>
+					<TabsContent value="AI" forceMount>
+						<ProjectGrid projects={projects.filter((p) => p.category === 'AI')} key="ai" />
+					</TabsContent>
+					<TabsContent value="Web" forceMount>
+						<ProjectGrid projects={projects.filter((p) => p.category === 'Web')} key="web"/>
+					</TabsContent>
+					<TabsContent value="Automation" forceMount>
+						<ProjectGrid projects={projects.filter((p) => p.category === 'Automation')} key="automation"/>
+					</TabsContent>
+				</AnimatePresence>
 			</Tabs>
 		</section>
 	);
@@ -129,8 +113,8 @@ const ProjectGrid = ({ projects }: { projects: typeof projects }) => {
 		<motion.div
 			variants={containerVariants}
 			initial="hidden"
-			whileInView="visible"
-			viewport={{ once: true }}
+			animate="visible"
+			exit="hidden"
 			className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-12"
 			style={{ perspective: '1200px' }}
 		>
@@ -152,6 +136,32 @@ const ProjectCard = ({
 	aiHint,
 }: (typeof projects)[0]) => {
 	const [isFlipped, setIsFlipped] = useState(false);
+	const cardRef = useRef<HTMLDivElement>(null);
+
+	const x = useMotionValue(0);
+	const y = useMotionValue(0);
+
+	const mouseXSpring = useSpring(x);
+	const mouseYSpring = useSpring(y);
+
+	const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ['10deg', '-10deg']);
+	const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ['-10deg', '10deg']);
+
+	const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+		if (!cardRef.current) return;
+		const { left, top, width, height } = cardRef.current.getBoundingClientRect();
+		const mouseX = e.clientX - left;
+		const mouseY = e.clientY - top;
+		const newX = (mouseX / width - 0.5) * 2;
+		const newY = (mouseY / height - 0.5) * 2;
+		x.set(newX);
+		y.set(newY);
+	};
+	
+	const handleMouseLeave = () => {
+		x.set(0);
+		y.set(0);
+	};
 
 	const cardVariants = {
 		hidden: { opacity: 0, y: 50, scale: 0.95 },
@@ -162,29 +172,42 @@ const ProjectCard = ({
 			transition: { type: 'spring', stiffness: 400, damping: 17 },
 		},
 	};
+	
+	const contentVariants = {
+		hidden: { opacity: 0, y: 10 },
+		visible: {
+			opacity: 1,
+			y: 0,
+			transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+		}
+	}
 
 	return (
 		<motion.div
 			variants={cardVariants}
 			className="group relative h-[450px] cursor-pointer"
 			onClick={() => setIsFlipped(!isFlipped)}
-			style={{ transformStyle: 'preserve-3d' }}
+			style={{ transformStyle: 'preserve-3d', rotateX, rotateY }}
 			tabIndex={0}
 			onKeyDown={(e) =>
 				(e.key === 'Enter' || e.key === ' ') && setIsFlipped(!isFlipped)
 			}
+			ref={cardRef}
+			onMouseMove={handleMouseMove}
+			onMouseLeave={handleMouseLeave}
 			aria-label={`Project card for ${title}`}
 		>
-			<AnimatePresence initial={false} mode="wait">
+			<motion.div whileHover={{scale: 1.03}} transition={{type: 'spring', stiffness: 400, damping: 17}}>
+			<AnimatePresence initial={false}>
 				{!isFlipped ? (
 					<motion.div
 						key="front"
 						className="absolute w-full h-full"
 						style={{ backfaceVisibility: 'hidden' }}
 						initial={{ rotateY: 0 }}
-						exit={{ rotateY: 180 }}
 						animate={{ rotateY: 0 }}
-						transition={{ duration: 0.6 }}
+						exit={{ rotateY: 180 }}
+						transition={{ duration: 0.6, ease: 'easeInOut' }}
 					>
 						<Card className="w-full h-full bg-card/60 border-primary/10 backdrop-blur-md overflow-hidden flex flex-col transition-all duration-300 group-hover:border-primary/30 group-hover:shadow-2xl group-hover:shadow-primary/20 shadow-lg">
 							<div className="relative overflow-hidden">
@@ -202,52 +225,54 @@ const ProjectCard = ({
 								</div>
 							</div>
 							<CardContent className="p-6 flex flex-col flex-grow">
-								<h3 className="font-headline text-xl text-accent mb-2">
-									{title}
-								</h3>
-								<p className="text-muted-foreground mb-4 text-sm flex-grow">
-									{description}
-								</p>
-								<div className="flex flex-wrap gap-2 mb-6 pt-2">
-									{tags.map((tag) => (
-										<span
-											key={tag}
-											className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full"
+								<motion.div variants={contentVariants} initial="hidden" animate="visible" exit="hidden">
+									<motion.h3 variants={contentVariants} className="font-headline text-xl text-accent mb-2">
+										{title}
+									</motion.h3>
+									<motion.p variants={contentVariants} className="text-muted-foreground mb-4 text-sm flex-grow">
+										{description}
+									</motion.p>
+									<motion.div variants={contentVariants} className="flex flex-wrap gap-2 mb-6 pt-2">
+										{tags.map((tag) => (
+											<span
+												key={tag}
+												className="px-2 py-1 text-xs bg-primary/20 text-primary rounded-full"
+											>
+												{tag}
+											</span>
+										))}
+									</motion.div>
+									<motion.div variants={contentVariants} className="flex justify-start gap-4 mt-auto">
+										<Button
+											asChild
+											variant="outline"
+											className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow"
+											onClick={(e) => e.stopPropagation()}
 										>
-											{tag}
-										</span>
-									))}
-								</div>
-								<div className="flex justify-start gap-4 mt-auto">
-									<Button
-										asChild
-										variant="outline"
-										className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow"
-										onClick={(e) => e.stopPropagation()}
-									>
-										<a
-											href={liveUrl}
-											target="_blank"
-											rel="noopener noreferrer"
+											<a
+												href={liveUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<ExternalLink className="mr-2 h-4 w-4" /> Live
+											</a>
+										</Button>
+										<Button
+											asChild
+											variant="ghost"
+											className="text-foreground hover:text-primary"
+											onClick={(e) => e.stopPropagation()}
 										>
-											<ExternalLink className="mr-2 h-4 w-4" /> Live
-										</a>
-									</Button>
-									<Button
-										asChild
-										variant="ghost"
-										className="text-foreground hover:text-primary"
-										onClick={(e) => e.stopPropagation()}
-									>
-										<a
-											href={githubUrl}
-											target="_blank"
-											rel="noopener noreferrer"
-										>
-											<Github className="mr-2 h-4 w-4" /> Code
-										</a>
-									</Button>
-								</div>
+											<a
+												href={githubUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<Github className="mr-2 h-4 w-4" /> Code
+											</a>
+										</Button>
+									</motion.div>
+								</motion.div>
 							</CardContent>
 						</Card>
 					</motion.div>
@@ -259,52 +284,55 @@ const ProjectCard = ({
 						initial={{ rotateY: -180 }}
 						animate={{ rotateY: 0 }}
 						exit={{ rotateY: -180 }}
-						transition={{ duration: 0.6 }}
+						transition={{ duration: 0.6, ease: 'easeInOut' }}
 					>
 						<Card className="w-full h-full bg-card/90 border-accent/30 backdrop-blur-lg overflow-hidden flex flex-col transition-all duration-300 shadow-xl">
 							<CardContent className="p-6 flex flex-col flex-grow text-left">
-								<h3 className="font-headline text-xl text-accent mb-2">
-									{title}{' '}
-									<span className="text-xs text-primary/60">More Info</span>
-								</h3>
-								<p className="text-muted-foreground text-sm flex-grow overflow-y-auto">
-									{longDescription}
-								</p>
-								<div className="flex justify-start gap-4 mt-auto pt-4">
-									<Button
-										asChild
-										variant="outline"
-										className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow"
-										onClick={(e) => e.stopPropagation()}
-									>
-										<a
-											href={liveUrl}
-											target="_blank"
-											rel="noopener noreferrer"
+								<motion.div variants={contentVariants} initial="hidden" animate="visible" exit="hidden">
+									<motion.h3 variants={contentVariants} className="font-headline text-xl text-accent mb-2">
+										{title}{' '}
+										<span className="text-xs text-primary/60">More Info</span>
+									</motion.h3>
+									<motion.p variants={contentVariants} className="text-muted-foreground text-sm flex-grow overflow-y-auto">
+										{longDescription}
+									</motion.p>
+									<motion.div variants={contentVariants} className="flex justify-start gap-4 mt-auto pt-4">
+										<Button
+											asChild
+											variant="outline"
+											className="border-accent text-accent hover:bg-accent hover:text-accent-foreground neon-glow"
+											onClick={(e) => e.stopPropagation()}
 										>
-											<ExternalLink className="mr-2 h-4 w-4" /> Live
-										</a>
-									</Button>
-									<Button
-										asChild
-										variant="ghost"
-										className="text-foreground hover:text-primary"
-										onClick={(e) => e.stopPropagation()}
-									>
-										<a
-											href={githubUrl}
-											target="_blank"
-											rel="noopener noreferrer"
+											<a
+												href={liveUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<ExternalLink className="mr-2 h-4 w-4" /> Live
+											</a>
+										</Button>
+										<Button
+											asChild
+											variant="ghost"
+											className="text-foreground hover:text-primary"
+											onClick={(e) => e.stopPropagation()}
 										>
-											<Github className="mr-2 h-4 w-4" /> Code
-										</a>
-									</Button>
-								</div>
+											<a
+												href={githubUrl}
+												target="_blank"
+												rel="noopener noreferrer"
+											>
+												<Github className="mr-2 h-4 w-4" /> Code
+											</a>
+										</Button>
+									</motion.div>
+								</motion.div>
 							</CardContent>
 						</Card>
 					</motion.div>
 				)}
 			</AnimatePresence>
+			</motion.div>
 		</motion.div>
 	);
 };
