@@ -4,7 +4,7 @@
 import { Card, CardContent } from '@/components/ui/card';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
-import { Github, ExternalLink, RefreshCw, Sparkles } from 'lucide-react';
+import { Github, ExternalLink, RefreshCw } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'framer-motion';
 import { useState, useRef } from 'react';
@@ -152,8 +152,8 @@ const ProjectCard = ({
 		const { left, top, width, height } = cardRef.current.getBoundingClientRect();
 		const mouseX = e.clientX - left;
 		const mouseY = e.clientY - top;
-		const newX = (mouseX / width - 0.5) * 2;
-		const newY = (mouseY / height - 0.5) * 2;
+		const newX = (mouseX / width - 0.5);
+		const newY = (mouseY / height - 0.5);
 		x.set(newX);
 		y.set(newY);
 	};
@@ -186,18 +186,17 @@ const ProjectCard = ({
 		<motion.div
 			variants={cardVariants}
 			className="group relative h-[450px] cursor-pointer"
-			onClick={() => setIsFlipped(!isFlipped)}
 			style={{ transformStyle: 'preserve-3d', rotateX, rotateY }}
 			tabIndex={0}
-			onKeyDown={(e) =>
-				(e.key === 'Enter' || e.key === ' ') && setIsFlipped(!isFlipped)
-			}
 			ref={cardRef}
 			onMouseMove={handleMouseMove}
 			onMouseLeave={handleMouseLeave}
+			onClick={() => setIsFlipped(!isFlipped)}
+			onKeyDown={(e) =>
+				(e.key === 'Enter' || e.key === ' ') && setIsFlipped(!isFlipped)
+			}
 			aria-label={`Project card for ${title}`}
 		>
-			<motion.div whileHover={{scale: 1.03}} transition={{type: 'spring', stiffness: 400, damping: 17}}>
 			<AnimatePresence initial={false}>
 				{!isFlipped ? (
 					<motion.div
@@ -332,7 +331,6 @@ const ProjectCard = ({
 					</motion.div>
 				)}
 			</AnimatePresence>
-			</motion.div>
 		</motion.div>
 	);
 };
