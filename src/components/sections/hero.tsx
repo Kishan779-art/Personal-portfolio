@@ -140,16 +140,7 @@ export default function Hero() {
       <div className="absolute -bottom-32 -right-32 w-[32rem] h-[32rem] bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
       {/* Hero Content */}
       <div className="relative z-10 text-center container mx-auto px-4">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1 }}
-        >
-          <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/70 border border-primary/20 text-primary font-semibold shadow-md mb-6 animate-fade-in">
-            <Sparkles className="w-5 h-5 text-accent" />
-            AI Portfolio
-          </span>
-        </motion.div>
+        
         <motion.h1 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
