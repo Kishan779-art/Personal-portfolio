@@ -26,6 +26,7 @@ const timeline = [
   { year: 'Present', title: 'B.Tech in Artificial Intelligence & Machine Learning', institution: 'Charusat' },
   { year: '2024', title: 'Completed Higher Studies', institution: 'Knowledge High school' },
   { year: '2023', title: 'Started Learning AI', institution: 'Self-Study & Online Courses' },
+];
 
 const stats = [
   { value: 10, label: 'Projects Done' },
