@@ -14,7 +14,13 @@ export function useClickSound({ type = 'click' }: UseClickSoundProps = {}) {
 
     try {
       // @ts-ignore
-      const audioContext: AudioContext = window.audioContext || new (window.AudioContext || window.webkitAudioContext)();
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) {
+        console.error("AudioContext is not supported in this browser.");
+        return;
+      }
+      // @ts-ignore
+      const audioContext: AudioContext = window.audioContext || new AudioContext();
       // @ts-ignore
       window.audioContext = audioContext;
 
