@@ -1,3 +1,4 @@
+'use client';
 import { Github, Instagram } from 'lucide-react';
 import Link from 'next/link';
 
@@ -6,7 +7,7 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
     xmlns="http://www.w3.org/2000/svg"
     width="24"
     height="24"
-    viewBox="0 0 24 24"
+    viewBox="0 0 24"
     fill="currentColor"
     {...props}
   >
@@ -15,24 +16,30 @@ const WhatsAppIcon = (props: React.SVGProps<SVGSVGElement>) => (
 );
 
 const socialLinks = [
-  { name: 'GitHub', icon: Github, href: 'https://github.com/Kishan779-art' },
-  { name: 'WhatsApp', icon: WhatsAppIcon, href: 'https://wa.me/918200945102' },
-  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/kishan_patel_7799_/' },
+  { name: 'GitHub', icon: Github, href: 'https://github.com/Kishan779-art', color: 'primary' },
+  { name: 'WhatsApp', icon: WhatsAppIcon, href: 'https://wa.me/918200945102', color: 'accent' },
+  { name: 'Instagram', icon: Instagram, href: 'https://www.instagram.com/kishan_patel_7799_/', color: 'secondary' },
 ];
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12 bg-gradient-to-br from-background via-accent/10 to-primary/10">
+    <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12 bg-gradient-to-br from-background via-accent/5 to-primary/5">
       {/* Animated border glow */}
-      <div className="absolute top-0 left-0 w-full h-[2px] animate-border-glow bg-[linear-gradient(to_right,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--secondary)),hsl(var(--primary)))] bg-[length:200%_auto]"></div>
+      <div className="absolute top-0 left-0 w-full h-px animate-border-glow bg-[linear-gradient(to_right,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--secondary)),hsl(var(--primary)))] bg-[length:200%_auto]"></div>
+
       {/* Decorative blurred shapes */}
-      <div className="absolute -top-16 -left-16 w-72 h-72 bg-primary/20 rounded-full blur-3xl opacity-30 -z-10"></div>
-      <div className="absolute -bottom-16 -right-16 w-96 h-96 bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
+      <div className="absolute -top-16 -left-16 w-64 h-64 bg-primary/10 rounded-full blur-3xl opacity-40 -z-10 animate-pulse"></div>
+      <div className="absolute -bottom-16 -right-16 w-80 h-80 bg-accent/10 rounded-full blur-3xl opacity-30 -z-10 animate-pulse animation-delay-3000"></div>
+
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10">
-        <p className="font-headline text-2xl md:text-3xl text-primary mb-4 animate-fade-in">
-          Thanks for visiting the Universe!
+        <p className="font-headline text-3xl md:text-4xl text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary drop-shadow-lg mb-6 animate-fade-in">
+          Thanks for visiting!
         </p>
-        <div className="flex justify-center space-x-6 mb-8">
+        <p className="text-muted-foreground text-lg mb-8 max-w-xl mx-auto animate-fade-in animation-delay-200">
+          Have a project in mind or want to connect? I'm always open to new opportunities and collaborations.
+        </p>
+
+        <div className="flex justify-center space-x-4 md:space-x-6 mb-10 animate-fade-in animation-delay-400">
           {socialLinks.map((link) => {
             const Icon = link.icon;
             return (
@@ -41,21 +48,52 @@ export default function Footer() {
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group text-foreground/70 hover:text-primary transition-all duration-300"
+                className={`group text-foreground/80 hover:text-${link.color} transition-all duration-300`}
                 aria-label={link.name}
               >
-                <span className="inline-block p-2 rounded-full bg-card/60 group-hover:bg-primary/10 shadow-md transition">
-                  <Icon className="w-8 h-8 group-hover:scale-110 transition-transform" />
-                </span>
+                <div className="relative">
+                  <span className="inline-block p-3 rounded-full bg-card/70 border border-primary/10 group-hover:bg-primary/5 shadow-lg transition-all duration-300 transform group-hover:-translate-y-1">
+                    <Icon className="w-7 h-7 md:w-8 md:h-8" />
+                  </span>
+                  <span
+                    className={`absolute inset-0 rounded-full bg-${link.color} blur-lg opacity-0 group-hover:opacity-40 transition-opacity duration-300`}
+                    style={{ animation: `glow-pulse-${link.color} 3s infinite` }}
+                  ></span>
+                </div>
                 <span className="sr-only">{link.name}</span>
               </Link>
             );
           })}
         </div>
-        <p className="text-muted-foreground text-sm md:text-base">
+        <p className="text-muted-foreground text-sm md:text-base animate-fade-in animation-delay-600">
           &copy; {new Date().getFullYear()} <span className="font-semibold text-primary">Kishan Patel</span>. All rights reserved.
         </p>
       </div>
+       <style jsx>{`
+        .animation-delay-200 { animation-delay: 200ms; }
+        .animation-delay-400 { animation-delay: 400ms; }
+        .animation-delay-600 { animation-delay: 600ms; }
+        .animation-delay-3000 { animation-delay: 3s; }
+        .hover\:text-primary:hover { color: hsl(var(--primary)); }
+        .hover\:text-accent:hover { color: hsl(var(--accent)); }
+        .hover\:text-secondary:hover { color: hsl(var(--secondary)); }
+        .bg-primary { background-color: hsl(var(--primary)); }
+        .bg-accent { background-color: hsl(var(--accent)); }
+        .bg-secondary { background-color: hsl(var(--secondary)); }
+        
+        @keyframes glow-pulse-primary {
+          0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.4); }
+          50% { box-shadow: 0 0 18px 4px hsl(var(--primary) / 0.6); }
+        }
+        @keyframes glow-pulse-accent {
+          0%, 100% { box-shadow: 0 0 0 0 hsl(var(--accent) / 0.4); }
+          50% { box-shadow: 0 0 18px 4px hsl(var(--accent) / 0.6); }
+        }
+        @keyframes glow-pulse-secondary {
+          0%, 100% { box-shadow: 0 0 0 0 hsl(var(--secondary) / 0.4); }
+          50% { box-shadow: 0 0 18px 4px hsl(var(--secondary) / 0.6); }
+        }
+      `}</style>
     </footer>
   );
 }
