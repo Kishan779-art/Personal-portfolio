@@ -107,7 +107,7 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 50 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.5, delay: index * 0.2 }}
-                className="bg-card/60 p-10 rounded-xl border border-primary/20 shadow-md hover:shadow-primary/30 transition-shadow duration-300"
+                className="bg-card/60 p-10 rounded-xl border border-primary/20 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 neon-glow"
               >
                 <h3 className="font-headline text-5xl font-bold text-primary drop-shadow-lg">
                   <AnimatedCounter to={stat.value} />+
