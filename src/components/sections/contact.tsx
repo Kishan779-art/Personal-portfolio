@@ -77,7 +77,13 @@ export default function Contact() {
                 <FormItem>
                   <FormLabel className="text-accent">Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Your name" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                    <Input
+                      placeholder="Your name"
+                      {...field}
+                      className="bg-background/50 focus:border-accent focus:ring-accent transition-shadow duration-300 shadow-sm focus:shadow-md rounded-md"
+                      aria-required="true"
+                      aria-label="Name"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -90,7 +96,13 @@ export default function Contact() {
                 <FormItem>
                   <FormLabel className="text-accent">Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="your.email@example.com" {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                    <Input
+                      placeholder="your.email@example.com"
+                      {...field}
+                      className="bg-background/50 focus:border-accent focus:ring-accent transition-shadow duration-300 shadow-sm focus:shadow-md rounded-md"
+                      aria-required="true"
+                      aria-label="Email"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -103,18 +115,33 @@ export default function Contact() {
                 <FormItem>
                   <FormLabel className="text-accent">Message</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="Your message..." {...field} className="bg-background/50 focus:border-accent focus:ring-accent" />
+                    <Textarea
+                      placeholder="Your message..."
+                      {...field}
+                      className="bg-background/50 focus:border-accent focus:ring-accent transition-shadow duration-300 shadow-sm focus:shadow-md rounded-md"
+                      aria-required="true"
+                      aria-label="Message"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button type="submit" disabled={isSubmitting} className="w-full bg-accent text-accent-foreground hover:bg-accent/90 neon-glow shadow-lg transition-all duration-200">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="w-full bg-accent text-accent-foreground hover:bg-accent/90 neon-glow shadow-lg transition-all duration-200"
+                aria-live="polite"
+                aria-busy={isSubmitting}
+              >
                 {isSubmitting ? 'Sending...' : <>Send Message <Send className="ml-2 h-4 w-4" /></>}
               </Button>
-              <Button asChild className="w-full bg-green-500 text-white hover:bg-green-600 animate-glow-pulse shadow-lg transition-all duration-200">
-                <Link href="https://wa.me/918200945102" target="_blank">
+              <Button
+                asChild
+                className="w-full bg-green-500 text-white hover:bg-green-600 animate-glow-pulse shadow-lg transition-all duration-200"
+              >
+                <Link href="https://wa.me/918200945102" target="_blank" aria-label="Contact on WhatsApp">
                   <WhatsAppIcon className="mr-2 h-5 w-5" />
                   Contact on WhatsApp
                 </Link>
