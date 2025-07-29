@@ -130,6 +130,30 @@ export default function Hero() {
       window.removeEventListener('mousemove', handleMouseMove);
     }
   }, []);
+  
+  const headlineVariants = {
+    initial: { opacity: 0, y: 20 },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 1,
+        delay: 0.2,
+        staggerChildren: 0.08,
+      },
+    },
+  };
+
+  const wordVariants = {
+    initial: { opacity: 0, y: 10 },
+    animate: { opacity: 1, y: 0 },
+    hover: {
+      y: -5,
+      scale: 1.05,
+      color: "hsl(var(--accent))",
+      transition: { type: "spring", stiffness: 300, damping: 10 }
+    }
+  };
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-accent/10 to-primary/10">
@@ -141,14 +165,19 @@ export default function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 text-center container mx-auto px-4">
         
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.2 }}
+        <motion.h1
+          variants={headlineVariants}
+          initial="initial"
+          animate="animate"
           className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary drop-shadow-lg"
         >
-          Welcome to the BOLT Universe
+          {"Welcome to the BOLT Universe".split(" ").map((word, i) => (
+            <motion.span key={i} variants={wordVariants} whileHover="hover" className="inline-block mr-4">
+              {word}
+            </motion.span>
+          ))}
         </motion.h1>
+
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -163,45 +192,49 @@ export default function Hero() {
           transition={{ duration: 1, delay: 1 }}
           className="flex flex-col sm:flex-row justify-center gap-4"
         >
-          <Button 
-            size="lg" 
-            className="bg-primary text-primary-foreground hover:bg-primary/90 animate-glow-pulse w-48 shadow-xl"
-            onClick={handleExploreClick}
-            disabled={isExploring}
-          >
-            <AnimatePresence mode="wait">
-              {isExploring ? (
-                <motion.div
-                  key="loading"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  className="flex items-center justify-center"
-                >
-                  <Loader className="mr-2 h-5 w-5 animate-spin" />
-                  Entering...
-                </motion.div>
-              ) : (
-                <motion.span
-                  key="explore"
-                  initial={{ opacity: 0, scale: 0.5 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0, scale: 0.5 }}
-                  className="flex items-center"
-                >
-                  Explore Universe
-                </motion.span>
-              )}
-            </AnimatePresence>
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-xl"
-            onClick={handleHireClick}
-          >
-            Hire Me
-          </Button>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button 
+              size="lg" 
+              className="bg-primary text-primary-foreground hover:bg-primary/90 animate-glow-pulse w-48 shadow-xl"
+              onClick={handleExploreClick}
+              disabled={isExploring}
+            >
+              <AnimatePresence mode="wait">
+                {isExploring ? (
+                  <motion.div
+                    key="loading"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="flex items-center justify-center"
+                  >
+                    <Loader className="mr-2 h-5 w-5 animate-spin" />
+                    Entering...
+                  </motion.div>
+                ) : (
+                  <motion.span
+                    key="explore"
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.5 }}
+                    className="flex items-center"
+                  >
+                    Explore Universe
+                  </motion.span>
+                )}
+              </AnimatePresence>
+            </Button>
+          </motion.div>
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              size="lg"
+              variant="outline"
+              className="border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-xl"
+              onClick={handleHireClick}
+            >
+              Hire Me
+            </Button>
+          </motion.div>
         </motion.div>
       </div>
       {/* Animated floating icons */}
