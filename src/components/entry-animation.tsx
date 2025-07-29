@@ -70,22 +70,20 @@ const WelcomeMessage = ({
     visible: {
       opacity: 1,
       y: 0,
-      scale: 1.08,
-      textShadow: '0 0 12px hsl(var(--primary)), 0 0 32px hsl(var(--accent)/0.5)',
+      textShadow: '0 0 8px hsl(var(--primary)), 0 0 24px hsl(var(--accent)/0.5)',
       transition: {
         type: 'spring',
-        damping: 10,
-        stiffness: 120,
+        damping: 12,
+        stiffness: 100,
       },
     },
     hidden: {
       opacity: 0,
-      y: 24,
-      scale: 0.96,
+      y: 20,
       transition: {
         type: 'spring',
-        damping: 10,
-        stiffness: 120,
+        damping: 12,
+        stiffness: 100,
       },
     },
   };
