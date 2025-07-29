@@ -81,16 +81,16 @@ export default function Projects() {
 				</TabsList>
 
 				<AnimatePresence mode="wait">
-					<TabsContent value="all" forceMount>
+					<TabsContent value="all">
 						<ProjectGrid projects={projects} key="all" />
 					</TabsContent>
-					<TabsContent value="AI" forceMount>
+					<TabsContent value="AI">
 						<ProjectGrid projects={projects.filter((p) => p.category === 'AI')} key="ai" />
 					</TabsContent>
-					<TabsContent value="Web" forceMount>
+					<TabsContent value="Web">
 						<ProjectGrid projects={projects.filter((p) => p.category === 'Web')} key="web"/>
 					</TabsContent>
-					<TabsContent value="Automation" forceMount>
+					<TabsContent value="Automation">
 						<ProjectGrid projects={projects.filter((p) => p.category === 'Automation')} key="automation"/>
 					</TabsContent>
 				</AnimatePresence>
