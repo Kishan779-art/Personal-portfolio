@@ -33,7 +33,7 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     if (nextPath) {
       router.push(nextPath);
       setNextPath(null);
-      setTimeout(() => setIsTransitioning(false), 500); // Allow animation to finish
+      setTimeout(() => setIsTransitioning(false), 250); // Allow animation to finish
     } else {
       // Initial load: step 0 -> 1, then finish
       if (transitionStep === 0) {
@@ -50,15 +50,6 @@ export const PageTransitionProvider = ({ children }: { children: ReactNode }) =>
     window.addEventListener('popstate', handleRouteChange);
     return () => window.removeEventListener('popstate', handleRouteChange);
   }, []);
-
-  // Optionally, you can add a global keyboard shortcut to skip transitions
-  // useEffect(() => {
-  //   const handleKey = (e: KeyboardEvent) => {
-  //     if (e.key === 'Escape') setIsTransitioning(false);
-  //   };
-  //   window.addEventListener('keydown', handleKey);
-  //   return () => window.removeEventListener('keydown', handleKey);
-  // }, []);
 
   return (
     <PageTransitionContext.Provider value={{ isTransitioning, transitionStep, startTransition, endTransition }}>

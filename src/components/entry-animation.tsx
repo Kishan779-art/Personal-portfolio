@@ -17,7 +17,7 @@ const MatrixCode = ({ onFinished }: { onFinished: () => void }) => {
       setLines(newLines);
     };
 
-    const interval = setInterval(generateLines, 80); // Faster for more dynamic effect
+    const interval = setInterval(generateLines, 80);
     const timeout = setTimeout(() => {
       clearInterval(interval);
       onFinished();
@@ -31,19 +31,18 @@ const MatrixCode = ({ onFinished }: { onFinished: () => void }) => {
 
   return (
     <motion.div
-      initial={{ opacity: 1, scale: 1 }}
-      animate={{ opacity: 1, scale: 1.04 }}
-      exit={{ opacity: 0, scale: 0.98 }}
-      transition={{ duration: 0.5, ease: [0.77, 0, 0.175, 1] }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5, ease: 'easeInOut' }}
       className="font-code text-primary/70 text-xs md:text-sm leading-tight select-none"
       style={{
-        textShadow: '0 0 8px hsl(var(--primary)), 0 0 24px hsl(var(--accent)/0.5)',
+        textShadow: '0 0 5px hsl(var(--primary)/0.7)',
         letterSpacing: '0.08em',
-        filter: 'drop-shadow(0 0 8px hsl(var(--primary)/0.5))',
       }}
     >
       {lines.map((line, i) => (
-        <p key={i} className="animate-fade-in">{line}</p>
+        <p key={i}>{line}</p>
       ))}
     </motion.div>
   );
@@ -70,7 +69,7 @@ const WelcomeMessage = ({
     visible: {
       opacity: 1,
       y: 0,
-      textShadow: '0 0 8px hsl(var(--primary)), 0 0 24px hsl(var(--accent)/0.5)',
+      textShadow: '0 0 5px hsl(var(--primary)/0.7)',
       transition: {
         type: 'spring',
         damping: 12,
@@ -79,7 +78,7 @@ const WelcomeMessage = ({
     },
     hidden: {
       opacity: 0,
-      y: 20,
+      y: 10,
       transition: {
         type: 'spring',
         damping: 12,
@@ -95,10 +94,14 @@ const WelcomeMessage = ({
 
   return (
     <motion.h1
-      className="font-headline text-2xl md:text-4xl text-center bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-lg animate-gradient-x neon-glow"
+      className="font-headline text-2xl md:text-4xl text-center bg-gradient-to-r from-primary via-accent to-secondary bg-clip-text text-transparent drop-shadow-lg"
       variants={container}
       initial="hidden"
       animate="visible"
+      style={{
+        textShadow:
+          '0 0 2px hsl(var(--primary)/0.5), 0 0 5px hsl(var(--accent)/0.3)',
+      }}
     >
       {words.map((word, index) => (
         <motion.span
@@ -112,6 +115,7 @@ const WelcomeMessage = ({
     </motion.h1>
   );
 };
+
 
 export default function EntryAnimation() {
   const { isTransitioning, transitionStep, endTransition } = usePageTransition();
@@ -140,23 +144,16 @@ export default function EntryAnimation() {
   return (
     <motion.div
       className={cn(
-        "fixed inset-0 z-[100] flex items-center justify-center bg-background/95 backdrop-blur-2xl"
+        "fixed inset-0 z-[100] flex items-center justify-center bg-background/90 backdrop-blur-md"
       )}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.3, ease: 'easeInOut' }}
     >
-      {/* Animated blurred shapes for extra depth */}
-      <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-30 -z-10 animate-glow-pulse" />
-      <div className="absolute -bottom-32 -right-32 w-[32rem] h-[32rem] bg-accent/20 rounded-full blur-3xl opacity-20 -z-10 animate-glow-pulse" />
-      {/* Floating SVG for extra flair */}
-      <svg className="absolute left-1/4 top-1/4 w-16 h-16 text-primary/30 animate-float" fill="none" viewBox="0 0 48 48">
-        <circle cx="24" cy="24" r="22" stroke="currentColor" strokeWidth="4" />
-      </svg>
-      <svg className="absolute right-1/4 bottom-1/4 w-20 h-20 text-accent/30 animate-float-slow" fill="none" viewBox="0 0 48 48">
-        <rect x="8" y="8" width="32" height="32" rx="8" stroke="currentColor" strokeWidth="4" />
-      </svg>
+      <div className="absolute -top-32 -left-32 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-30 -z-10" />
+      <div className="absolute -bottom-32 -right-32 w-[32rem] h-[32rem] bg-accent/20 rounded-full blur-3xl opacity-20 -z-10" />
+      
       <AnimatePresence mode="wait">
         {isFirstLoad ? (
           <motion.div key="full-intro">
@@ -169,25 +166,6 @@ export default function EntryAnimation() {
           <WelcomeMessage key="page-transition" onFinished={endTransition} text={message} />
         )}
       </AnimatePresence>
-      <style jsx global>{`
-        @keyframes float {
-          0%, 100% { transform: translateY(0px);}
-          50% { transform: translateY(-18px);}
-        }
-        .animate-float { animation: float 4s ease-in-out infinite; }
-        @keyframes float-slow {
-          0%, 100% { transform: translateY(0px);}
-          50% { transform: translateY(24px);}
-        }
-        .animate-float-slow { animation: float-slow 7s ease-in-out infinite; }
-        @keyframes glow-pulse {
-          0%, 100% { box-shadow: 0 0 0 0 hsl(var(--primary) / 0.5); }
-          50% { box-shadow: 0 0 24px 8px hsl(var(--primary) / 0.7); }
-        }
-        .animate-glow-pulse {
-          animation: glow-pulse 1.8s infinite cubic-bezier(0.77, 0, 0.175, 1);
-        }
-      `}</style>
     </motion.div>
   );
 }
