@@ -31,6 +31,29 @@ const stats = [
   { value: 1500, label: 'Hours Coded' },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.6, 0.05, -0.01, 0.9],
+    },
+  },
+};
+
 export default function AboutPage() {
   const titles = ["ML Enthusiast", "Resume Ranker Dev", "Hackathon Winner"];
   const typewriterText = useTypewriter(titles, 100, 50, 2000);
@@ -44,16 +67,16 @@ export default function AboutPage() {
         <motion.section
           id="about"
           className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-20 py-20 relative"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.2 }}
-          transition={{ duration: 0.8 }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
+          variants={containerVariants}
         >
           {/* Decorative blurred shapes */}
           <div className="absolute -top-24 -left-24 w-96 h-96 bg-primary/20 rounded-full blur-3xl opacity-20 -z-10"></div>
           <div className="absolute -bottom-24 -right-24 w-[32rem] h-[32rem] bg-accent/20 rounded-full blur-3xl opacity-20 -z-10"></div>
 
-          <div className="text-center space-y-2">
+          <motion.div variants={itemVariants} className="text-center space-y-2">
             <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-card/70 border border-primary/20 text-primary font-semibold shadow-md animate-fade-in">
               <Sparkles className="w-5 h-5 text-accent" />
               About Me
@@ -64,10 +87,13 @@ export default function AboutPage() {
             <p className="mt-2 text-lg text-muted-foreground max-w-2xl mx-auto">
               A journey through code, creativity, and curiosity.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-5 gap-12 items-center">
-            <div className="md:col-span-2 flex justify-center items-center">
+          <motion.div variants={itemVariants} className="grid md:grid-cols-5 gap-12 items-center">
+            <motion.div
+              variants={itemVariants}
+              className="md:col-span-2 flex justify-center items-center"
+            >
               <div className="relative group">
                 <Image
                   src="https://drive.google.com/uc?export=view&id=1ggWqofoAf23pggn6vSEQn3OKVDyd1Cho"
@@ -78,8 +104,8 @@ export default function AboutPage() {
                 />
                 <div className="absolute -inset-3 bg-gradient-to-br from-primary to-accent rounded-xl blur-2xl opacity-40 group-hover:opacity-60 animate-glow-pulse transition" />
               </div>
-            </div>
-            <div className="md:col-span-3">
+            </motion.div>
+            <motion.div variants={itemVariants} className="md:col-span-3">
               <Card className="bg-card/60 border-primary/20 backdrop-blur-md shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-accent font-headline text-2xl">My Journey</CardTitle>
@@ -97,16 +123,20 @@ export default function AboutPage() {
                   </p>
                 </CardContent>
               </Card>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
-          <div ref={statsRef} className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+          <motion.div
+            ref={statsRef}
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center"
+          >
             {stats.map((stat, index) => (
               <motion.div
                 key={index}
-                initial={{ opacity: 0, y: 50 }}
-                animate={isInView ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 0.5, delay: index * 0.2 }}
+                variants={itemVariants}
                 className="bg-card/60 p-10 rounded-xl border border-primary/20 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 neon-glow"
               >
                 <h3 className="font-headline text-5xl font-bold text-primary drop-shadow-lg">
@@ -115,52 +145,76 @@ export default function AboutPage() {
                 <p className="text-muted-foreground mt-2 text-lg">{stat.label}</p>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="grid md:grid-cols-2 gap-12">
-            <div>
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid md:grid-cols-2 gap-12"
+          >
+            <motion.div variants={itemVariants}>
               <h3 className="font-headline text-3xl font-bold text-primary mb-8">Timeline</h3>
               <div className="relative border-l-2 border-primary/30 pl-8 space-y-12">
                 {timeline.map((item, index) => (
-                  <div key={index} className="relative group">
+                  <motion.div
+                    key={index}
+                    className="relative group"
+                    initial={{ opacity: 0, x: -20 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.2 }}
+                  >
                     <div className="absolute -left-[38px] top-1 w-4 h-4 rounded-full bg-gradient-to-br from-primary to-accent neon-glow group-hover:scale-125 transition-transform"></div>
                     <p className="font-bold text-accent">{item.year}</p>
                     <h4 className="font-semibold text-lg text-foreground">{item.title}</h4>
                     <p className="text-muted-foreground">{item.institution}</p>
-                  </div>
+                  </motion.div>
                 ))}
               </div>
-            </div>
-            <div>
+            </motion.div>
+            <motion.div variants={itemVariants}>
               <h3 className="font-headline text-3xl font-bold text-primary mb-8">Skills</h3>
               <Accordion type="single" collapsible className="w-full">
                 {skills.map((skill) => (
-                  <AccordionItem value={skill.name} key={skill.name} className="border-primary/20">
-                    <AccordionTrigger className="font-semibold text-lg hover:no-underline hover:text-accent transition-colors">
-                      {skill.name}
-                    </AccordionTrigger>
-                    <AccordionContent>
-                      <div className="space-y-4 p-4 bg-background/60 rounded-md">
-                        <Progress
-                          value={skill.value}
-                          className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-primary [&>div]:to-accent transition-all duration-700"
-                        />
-                        <p className="text-sm text-muted-foreground">{skill.details}</p>
-                      </div>
-                    </AccordionContent>
-                  </AccordionItem>
+                  <motion.div
+                    key={skill.name}
+                    initial={{ opacity: 0, y: 15 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5 }}
+                  >
+                    <AccordionItem value={skill.name} className="border-primary/20">
+                      <AccordionTrigger className="font-semibold text-lg hover:no-underline hover:text-accent transition-colors">
+                        {skill.name}
+                      </AccordionTrigger>
+                      <AccordionContent>
+                        <div className="space-y-4 p-4 bg-background/60 rounded-md">
+                          <Progress
+                            value={skill.value}
+                            className="h-2 [&>div]:bg-gradient-to-r [&>div]:from-primary [&>div]:to-accent transition-all duration-700"
+                          />
+                          <p className="text-sm text-muted-foreground">{skill.details}</p>
+                        </div>
+                      </AccordionContent>
+                    </AccordionItem>
+                  </motion.div>
                 ))}
               </Accordion>
-            </div>
-          </div>
-          <div className="text-center mt-20">
+            </motion.div>
+          </motion.div>
+          <motion.div
+            variants={itemVariants}
+            className="text-center mt-20"
+          >
             <a
               href="/contact"
               className="inline-block px-10 py-4 bg-gradient-to-r from-primary via-accent to-secondary text-white font-bold rounded-xl shadow-xl hover:scale-105 hover:shadow-2xl transition-all duration-300 animate-glow-pulse"
             >
               Let’s Connect!
             </a>
-          </div>
+          </motion.div>
         </motion.section>
       </main>
       <Footer />
