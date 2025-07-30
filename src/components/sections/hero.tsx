@@ -168,7 +168,7 @@ export default function Hero() {
           className="font-headline text-4xl md:text-6xl lg:text-7xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-r from-primary via-accent to-secondary drop-shadow-lg"
         >
           {"Welcome to the BOLT Universe".split(" ").map((word, i) => (
-            <motion.span key={i} variants={wordVariants} whileHover="hover" className="inline-block mr-4">
+            <motion.span key={i} variants={wordVariants} whileHover="hover" className="inline-block mr-2 md:mr-4">
               {word}
             </motion.span>
           ))}
@@ -225,10 +225,10 @@ export default function Hero() {
       </div>
       {/* Animated floating icons */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none z-10">
-        <Cpu className="absolute text-primary/50 w-12 h-12" style={{ top: '20%', left: '15%', animation: 'float 6s ease-in-out infinite' }}/>
-        <Code className="absolute text-primary/50 w-12 h-12" style={{ top: '70%', left: '80%', animation: 'float 8s ease-in-out infinite 1s' }}/>
-        <BrainCircuit className="absolute text-primary/50 w-12 h-12" style={{ top: '50%', left: '5%', animation: 'float 7s ease-in-out infinite 2s' }}/>
-        <Rocket className="absolute text-accent/50 w-12 h-12" style={{ top: '80%', left: '10%', animation: 'float-rocket 10s ease-in-out infinite' }}/>
+        <Cpu className="absolute text-primary/50 w-8 h-8 md:w-12 md:h-12" style={{ top: '20%', left: '15%', animation: 'float 6s ease-in-out infinite' }}/>
+        <Code className="absolute text-primary/50 w-8 h-8 md:w-12 md:h-12" style={{ top: '70%', left: '80%', animation: 'float 8s ease-in-out infinite 1s' }}/>
+        <BrainCircuit className="absolute text-primary/50 w-8 h-8 md:w-12 md:h-12" style={{ top: '50%', left: '5%', animation: 'float 7s ease-in-out infinite 2s' }}/>
+        <Rocket className="absolute text-accent/50 w-8 h-8 md:w-12 md:h-12" style={{ top: '80%', left: '10%', animation: 'float-rocket 10s ease-in-out infinite' }}/>
       </div>
       <style jsx>{`
         @keyframes float {
