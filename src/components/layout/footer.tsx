@@ -1,3 +1,4 @@
+
 'use client';
 import { Github, Instagram } from 'lucide-react';
 import Link from 'next/link';
@@ -23,7 +24,7 @@ const socialLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12 bg-gradient-to-br from-background via-accent/5 to-primary/5">
+    <footer className="relative overflow-hidden border-t border-primary/10 mt-24 py-12 bg-background/70">
       {/* Animated border glow */}
       <div className="absolute top-0 left-0 w-full h-px animate-border-glow bg-[linear-gradient(to_right,hsl(var(--primary)),hsl(var(--accent)),hsl(var(--secondary)),hsl(var(--primary)))] bg-[length:200%_auto]"></div>
 
@@ -74,9 +75,9 @@ export default function Footer() {
         .animation-delay-400 { animation-delay: 400ms; }
         .animation-delay-600 { animation-delay: 600ms; }
         .animation-delay-3000 { animation-delay: 3s; }
-        .hover\:text-primary:hover { color: hsl(var(--primary)); }
-        .hover\:text-accent:hover { color: hsl(var(--accent)); }
-        .hover\:text-secondary:hover { color: hsl(var(--secondary)); }
+        .hover\\:text-primary:hover { color: hsl(var(--primary)); }
+        .hover\\:text-accent:hover { color: hsl(var(--accent)); }
+        .hover\\:text-secondary:hover { color: hsl(var(--secondary)); }
         .bg-primary { background-color: hsl(var(--primary)); }
         .bg-accent { background-color: hsl(var(--accent)); }
         .bg-secondary { background-color: hsl(var(--secondary)); }
