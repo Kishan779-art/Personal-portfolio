@@ -1,3 +1,4 @@
+
 'use client';
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
@@ -46,14 +47,6 @@ export default function Header() {
     }
   };
   
-  const handleButtonClick = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    playClickSound();
-    if (pathname !== '/contact') {
-        startTransition('/contact', 5);
-    }
-  };
-
   const MobileMenu = () => (
     <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
         <SheetTrigger asChild>
@@ -92,17 +85,6 @@ export default function Header() {
                             </Link>
                         </SheetClose>
                     ))}
-                    <SheetClose asChild>
-                      <Button variant="outline" className="border-primary text-primary hover:bg-primary hover:text-background neon-glow w-4/5 mt-8 shadow-lg transition-all duration-200" onClick={(e) => {
-                          e.preventDefault();
-                          playClickSound();
-                          if (pathname !== '/contact') {
-                              startTransition('/contact', 5);
-                          }
-                      }}>
-                        Hire Me
-                      </Button>
-                    </SheetClose>
                 </nav>
             </div>
         </SheetContent>
@@ -150,9 +132,6 @@ export default function Header() {
             ))}
           </nav>
           <div className="flex items-center gap-2">
-            <Button variant="outline" className="hidden md:inline-flex border-primary text-primary hover:bg-primary hover:text-background neon-glow shadow-lg transition-all duration-200" onClick={handleButtonClick}>
-              Hire Me
-            </Button>
             <ThemeToggle />
             <div className="md:hidden">
               <MobileMenu />

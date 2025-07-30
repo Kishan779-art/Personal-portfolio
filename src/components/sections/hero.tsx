@@ -1,8 +1,9 @@
+
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import { Cpu, Code, BrainCircuit, Rocket, Loader, Sparkles } from 'lucide-react';
+import { Cpu, Code, BrainCircuit, Rocket, Loader } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useClickSound } from '@/hooks/useClickSound';
@@ -21,11 +22,6 @@ export default function Hero() {
     setTimeout(() => {
       router.push('/about');
     }, 1500);
-  };
-
-  const handleHireClick = () => {
-    playClickSound();
-    router.push('/contact');
   };
 
   useEffect(() => {
@@ -190,7 +186,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1 }}
-          className="flex flex-col sm:flex-row justify-center gap-4"
+          className="flex justify-center gap-4"
         >
           <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
             <Button 
@@ -223,16 +219,6 @@ export default function Hero() {
                   </motion.span>
                 )}
               </AnimatePresence>
-            </Button>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-accent text-accent hover:bg-accent hover:text-accent-foreground shadow-xl"
-              onClick={handleHireClick}
-            >
-              Hire Me
             </Button>
           </motion.div>
         </motion.div>
