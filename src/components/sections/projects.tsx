@@ -31,7 +31,7 @@ const projects = [
 			'An advanced expense tracking application to manage your finances with real-time updates and detailed data visualizations.',
 		longDescription:
 			'An advanced expense tracking application designed to provide a seamless and intuitive experience for managing your finances. With real-time updates, secure authentication, and detailed data visualizations, Bolt-Ledger helps you stay on top of your spending effortlessly.',
-		image: '/bolt-ledger.png',
+		image: 'https://placehold.co/600x400.png',
 		tags: ['Next.js', 'Firebase', 'Data Visualization', 'Web'],
 		liveUrl: 'https://bolt-ledger.vercel.app/',
 		githubUrl: 'https://github.com/Kishan779-art',
@@ -44,7 +44,7 @@ const projects = [
 			'A simple and easy-to-use QR code generator. Instantly create QR codes for URLs, text, and more. Customize and download your QR codes effortlessly.',
 		longDescription:
 			'This web application provides a fast and intuitive way to generate custom QR codes. Built with a focus on a clean user interface and immediate feedback, users can input various data types like URLs or plain text and see the QR code generated in real-time. The tool is built with modern web technologies for a responsive and seamless experience across all devices.',
-		image: '/qr-project.png',
+		image: 'https://placehold.co/600x400.png',
 		tags: ['React', 'Next.js', 'Tailwind CSS', 'Vercel'],
 		liveUrl: 'https://kishanqrproject.vercel.app/',
 		githubUrl: 'https://github.com/Kishan779-art',
@@ -57,7 +57,7 @@ const projects = [
 			'A smart auto-typing web tool that mimics human-like typing, built using Python, Selenium, and OCR to achieve over 100 WPM with high precision.',
 		longDescription:
 			'A smart auto-typing web tool that mimics human-like typing on TypingBolt.com. Built using Python, Selenium, and OCR, it reads the target text and types it automatically — achieving 100+ WPM with precision. Great for exploring browser automation, UI interaction, and AI-in-action. Fully powered by BOLT UNIVERSE.',
-		image: '/typing-bolt.png',
+		image: 'https://placehold.co/600x400.png',
 		tags: ['Python', 'Selenium', 'Automation', 'OCR'],
 		liveUrl: 'https://bolt-typing.vercel.app/',
 		githubUrl: 'https://github.com/Kishan779-art/Typing-Bolt',
