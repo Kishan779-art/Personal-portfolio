@@ -140,11 +140,9 @@ export default function AboutPage() {
                 variants={itemVariants}
                 className="bg-card/60 p-10 rounded-xl border border-primary/20 shadow-md hover:shadow-primary/30 transition-all duration-300 hover:scale-105 hover:bg-gradient-to-br hover:from-primary/10 hover:to-accent/10 neon-glow"
               >
-                 <motion.div variants={itemVariants}>
-                  <h3 className="font-headline text-5xl md:text-6xl font-bold text-primary drop-shadow-lg">
-                    <AnimatedCounter to={stat.value} />+
-                  </h3>
-                </motion.div>
+                <h3 className="font-headline text-5xl md:text-6xl font-bold text-primary drop-shadow-lg">
+                  <AnimatedCounter to={stat.value} />+
+                </h3>
                 <p className="text-muted-foreground mt-2 text-lg">{stat.label}</p>
               </motion.div>
             ))}
